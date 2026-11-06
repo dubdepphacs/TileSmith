@@ -30,7 +30,7 @@ async def main():
         # cabling: the app's own data and power wiring drawn as cables, a suggestion that is valid, tile-by-tile editing, cable schedule
         await pg.evaluate("()=>{S.proc=Object.keys(PROC).find(x=>x!='None');S.ppx=655360;S.pdist=true;S.wmode='Snake';S.pmode='Snake';walls.forEach((w,i)=>{w.wmode='Snake';w.pmode='Snake'});storeWall();drwRender()}")
         cb = await pg.evaluate("()=>{const c=drwCables(drwLayout());return{n:c.length,d:c.filter(x=>x.kind=='d').length,p:c.filter(x=>x.kind=='p').length,len:c.every(x=>x.totalMm>0&&x.pcs.length>0),pages:[...$('#drwSheet').options].map(o=>o.textContent)}}")
-        chk(cb['d'] >= 2 and cb['p'] >= 2 and cb['len'] and cb['pages'] == ['Plan', 'Cable schedule'], f'cables are drawn and a cable schedule sheet exists {cb}')
+        chk(cb['d'] >= 2 and cb['p'] >= 2 and cb['len'] and cb['pages'] == ['Plan', 'Cable schedule', 'Material list'], f'cables are drawn, with a cable schedule and a material list {cb}')
         sg = await pg.evaluate("""()=>{drwSetKey(0,'wmode','Linear');drwSetKey(0,'wcorner','Bottom-right');drwSetKey(0,'wdir','Vertical');drwSetKey(0,'wfill','Whole rows or columns');
           drwSuggest('d',0);drwSuggest('p',0);const w=walls[0],P2=pieces(w);const chk=(pl,t)=>{const seen=new Set;let over=0,dup=0;pl.forEach(c=>{if(c.over)over++;c.tiles.forEach(e=>{const k=elKey(e);if(seen.has(k))dup++;seen.add(k)})});return{cov:seen.size==P2.list.length,over,dup,n:pl.length,min:Math.ceil(P2.list.length/t)}};
           return{d:chk(portPlan()[0],tpp(w)),p:chk(powerPlan()[0],tpcW(w))}}""")
@@ -50,10 +50,14 @@ async def main():
         chk(await pg.evaluate("()=>S.drSrc.length==1&&S.drSrc[0].k=='d'"), 'the processor box can be moved and the position is kept')
         await pg.select_option('#drwSheet', '1')
         chk(await pg.evaluate("()=>{const t=$('#drwStage')._d.items.filter(i=>i.t=='text').map(i=>i.s);return t.includes('Cable schedule')&&t.some(s=>/^P\\d+$/.test(s))&&t.some(s=>/^C\\d+$/.test(s))}"), 'the cable schedule lists data and power cables')
+        await pg.select_option('#drwSheet', '2')
+        chk(await pg.evaluate("()=>{const t=$('#drwStage')._d.items.filter(i=>i.t=='text').map(i=>i.s);return t.includes('CAT6')&&t.includes('powerCON TRUE1')&&t.includes('0.5 m')&&t.includes('Home run')}"), 'the material list counts CAT6 and powerCON TRUE1 cables by length')
+        lk = await pg.evaluate("()=>{const f=()=>drwCables(drwLayout()).filter(c=>c.kind=='d').map(c=>Object.keys(c.links).join());const a=f();S.drLens='1, 2, 5, 10, 20';const b=f();S.drLens='0.5, 1, 2, 3, 5, 10, 15, 20, 25, 30, 40, 50, 75, 100';return{a,b}}")
+        chk(all(x == '0.5' for x in lk['a']) and all(x == '1' for x in lk['b']), f'links get the shortest stock length that reaches ({lk})')
         await pg.select_option('#drwSheet', '0')
         async with pg.expect_download() as dl2: await pg.click('[data-d=pdf]')
         f2 = await dl2.value; p2 = os.path.join(tempfile.mkdtemp(), 'c.pdf'); await f2.save_as(p2)
-        chk(open(p2, 'rb').read().count(b'/Type /Page ') == 2, 'the PDF has the plan and the cable schedule')
+        chk(open(p2, 'rb').read().count(b'/Type /Page ') == 3, 'the PDF has the plan, the cable schedule and the material list')
         await pg.click('[data-d=reset]')
         async with pg.expect_download() as dl: await pg.click('[data-d=pdf]')
         f = await dl.value; path = os.path.join(tempfile.mkdtemp(), 'd.pdf'); await f.save_as(path); data = open(path, 'rb').read()
