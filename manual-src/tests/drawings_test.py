@@ -53,6 +53,11 @@ async def main():
         await pg.click(f"#drwStage [data-tk=\"0|{e1['key']}\"]")
         chk(await pg.evaluate("()=>$('#drwStage')._d.items.filter(i=>i.t=='rect'&&i.fill=='#ffe45c').length==0"), 'clicking it again puts it back on the cable')
         await pg.click('[data-t=move]')
+        # the colourful option: neighbouring cables must look clearly different (CIE76 distance), and the colours really change per port
+        pal = await pg.evaluate("""()=>{const lab=h=>{const f=c=>{c/=255;return c>.04045?Math.pow((c+.055)/1.055,2.4):c/12.92},r=f(parseInt(h.slice(1,3),16)),g=f(parseInt(h.slice(3,5),16)),b=f(parseInt(h.slice(5,7),16)),X=(r*.4124+g*.3576+b*.1805)/.95047,Y=r*.2126+g*.7152+b*.0722,Z=(r*.0193+g*.1192+b*.9505)/1.08883,t=v=>v>.008856?Math.cbrt(v):7.787*v+16/116;return[116*t(Y)-16,500*(t(X)-t(Y)),200*(t(Y)-t(Z))]};
+          const de=(a,b)=>Math.hypot(...lab(a).map((v,i)=>v-lab(b)[i])),P=DRW_PAL,n=P.length;let m1=1e9,m2=1e9;for(let i=0;i<n;i++){m1=Math.min(m1,de(P[i],P[(i+1)%n]));m2=Math.min(m2,de(P[i],P[(i+2)%n]))}
+          S.drRainbow=true;const c=drwCables(drwLayout('data'),'d'),cols=c.map(x=>drwCableCol(x.n,'d'));const sameNeighbour=cols.some((x,i)=>i&&x==cols[i-1]);S.drRainbow=false;return{n,m1:Math.round(m1),m2:Math.round(m2),sameNeighbour,distinct:new Set(cols).size>1}}""")
+        chk(pal['m1'] >= 60 and pal['m2'] >= 30 and not pal['sameNeighbour'] and pal['distinct'], f'colour per port: neighbouring cables are clearly different {pal}')
         sh = await pg.evaluate("()=>{S.drPow=false;const a=drwKinds();S.drPow=true;S.drData=false;const b=drwKinds();S.drData=true;return[a,b,drwKinds()]}")
         chk(sh == [['plan', 'data'], ['plan', 'power'], ['plan', 'data', 'power']], f'data and power sheets can be switched off {sh}')
         await pg.select_option('#drwSheet', '0')

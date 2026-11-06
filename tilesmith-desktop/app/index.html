@@ -371,7 +371,7 @@ const HALF={'Owl Vision Black Owl 3.9 500×1000':['Owl Vision Black Owl 3.9','h'
  'YES TECH MU 2.9 outdoor 500×1000':['YES TECH MU 2.9 outdoor','h'],'YES TECH MU 3.9 outdoor 500×1000':['YES TECH MU 3.9 outdoor','h'],
  'YES TECH MT II 3.9-7.8 1000×500':['YES TECH MT II 3.9-7.8 500×500','w']};
 const R={'1080p Full HD':[1920,1080],'4K UHD':[3840,2160],'2K DCI':[2048,1080],'4K DCI':[4096,2160],'720p HD':[1280,720],'32:9 Banner':[3840,1080]};
-const S={drTitle:'',drCompany:'',drClient:'',drVenue:'',drBy:'',drRev:'A',drPaper:'A3',drScale:'Auto',drDim:true,drNum:true,drData:true,drPow:true,drLogo:true,drDataCable:'CAT6',drPowCable:'powerCON TRUE1',drNotes:[],dx:0,dy:0,cw:1920,ch:1080,ox:0,oy:0,cols:6,rows:4,preset:'Unilumin UpadIV 2.6',tw:192,th:192,wmm:500,hmm:500,dmm:70,kg:6.3,wmax:120,pitch:2.6,
+const S={drTitle:'',drCompany:'',drClient:'',drVenue:'',drBy:'',drRev:'A',drPaper:'A3',drScale:'Auto',drDim:true,drNum:true,drData:true,drPow:true,drLogo:true,drDataCable:'CAT6',drPowCable:'powerCON TRUE1',drRainbow:false,drNotes:[],dx:0,dy:0,cw:1920,ch:1080,ox:0,oy:0,cols:6,rows:4,preset:'Unilumin UpadIV 2.6',tw:192,th:192,wmm:500,hmm:500,dmm:70,kg:6.3,wmax:120,pitch:2.6,
 bc:'#22d3ee',bt:3,rcfg:'',pat:'tileshade',tpos:true,half:[],gone:[],lay:{},gx:0,gy:0,ids:true,addr:false,mm:false,speed:1,dvdOn:false,dvdSrc:'TileSmith logo',dvdText:'TILESMITH',dvdArea:'Each LED wall',dvdSize:20,dvdSpeed:1,dvdCorner:10,dvdTint:true,dvdLoop:false,dvdLoopLen:30,dvdLoopCorners:true,rcard:'any',procAll:false,vIntro:5,vHold:10,vLed:true,vDvd:false,vCodec:'HAP (.mov)',hapFmt:'hap',name:'LED Wall',corner:'Top-left',dir:'Horizontal',wmode:'None',wcorner:'Top-left',wdir:'Horizontal',wfill:'Fewest ports',wman:[],pmode:'None',pcorner:'Top-left',pwdir:'Horizontal',pfill:'Fewest circuits',plink:0,pman:[],proc:'None',fps:60,bpc:8,ull:false,ppx:0,pports:0,ret:true,showData:true,pdist:false,pvolt:120,pamps:20,derate:true,showPow:true,resSl:'One slice per LED wall',pfit:'Stretch to wall',pdir:'none',pspd:1,patImg:null,loop:false,loopHold:3,shadeC:'#3f8080',boxMode:'Nothing',boxText:'',boxCol:'#ffffff',boxImg:null,
 ndiName:'TileSmith-LED-Out',ndiFps:60,ndiIdle:false,shName:'TileSmith',shFps:60,shIdle:true,shGpu:'Automatic',lblWhat:'Data and power',lblPow:'Cable and circuit labels',pdt:'Socapex (6 circuits per cable)',pwall:0,pwallA:20,lblSize:'Avery 5163 (10 per US Letter sheet)',lblLayout:'Two identical panels',lblFlag:'Big end blocks',lblWall:'Wall-shade block + name (several walls only)',lblW:62,lblH:29,lblCopies:1,lblColor:true,lblJump:false,lblKeep:true,lblSkip:1,hat:'#ffcc00',vest:'#b6ff00',tstyle:'Classic',tpack:'',logo:'TILESMITH',cd:true,play:true,font:'JetBrains Mono',hideEng:false};
 const FONTS={'JetBrains Mono':"'JetBrains Mono',ui-monospace,monospace",'OpenDyslexic':"'OpenDyslexic',sans-serif",'Current':"Barlow,system-ui,sans-serif"};
@@ -559,7 +559,7 @@ ${SUB('Power wiring <span class="wn"></span>',`<div id="pwireBox"><div class="g"
 <div id="pstat" style="color:var(--mu);font-size:12px"></div></div>`,1)}</div>`,1)}
 ${SUB('Drawings',`<div style="color:var(--mu);font-size:12px">Dimensioned build plans of every wall, made from this project. Every canvas gets a plan sheet, a data cabling sheet (blue) and a power cabling sheet (red), made from the wall wiring. The editor suggests a good layout and lets you change any cable. Export all sheets as a PDF.</div>
 <div class="g">${F('drTitle','Drawing title','text','','w')}${F('drCompany','Company','text','','w')}${F('drClient','Client','text')}${F('drVenue','Venue','text')}${F('drBy','Drawn by','text')}${F('drRev','Revision','text')}${F('drPaper','Paper','select',['A4','A3','A2','Letter','Tabloid'])}${F('drScale','Scale','select',DRW_SCALE_LIST)}
-${F('drDim','Dimensions','check')}${F('drNum','Tile numbers','check')}${F('drData','Data cabling sheet (needs an LED processor)','check')}${F('drPow','Power cabling sheet (needs power distribution)','check')}${F('drDataCable','Data cable type','text')}${F('drPowCable','Power cable type','text')}${F('drLogo','Logo in the title block (the vest logo from Technician)','check')}</div>
+${F('drDim','Dimensions','check')}${F('drNum','Tile numbers','check')}${F('drData','Data cabling sheet (needs an LED processor)','check')}${F('drPow','Power cabling sheet (needs power distribution)','check')}${F('drRainbow','Different colour for every port and circuit','check')}${F('drDataCable','Data cable type','text')}${F('drPowCable','Power cable type','text')}${F('drLogo','Logo in the title block (the vest logo from Technician)','check')}</div>
 <div class="row">${B('drwopen','Open drawing editor')}${B('drwpdf','Export drawings (PDF)')}</div>`)}
 <h2>Animation Options</h2>${SUB('Test pattern <span class="wn"></span>','<div class="tpSlot" data-tp="anim"></div><div class="tpAway" style="font-size:12px;color:var(--mu)">Open in the canvas menu › Test pattern.</div>')}
 ${SUB('DVD screensaver',`${F('dvdOn','Bounce a logo around the screen','check')}
@@ -1650,6 +1650,11 @@ const DRW_SCALES=[5,10,20,25,30,40,50,75,100,150,200,250,300,400,500,750,1000,15
 const DRW_SCALE_LIST=['Auto'].concat(DRW_SCALES.map(n=>'1:'+n));
 const DRW_CORNERS=['Top-left','Top-right','Bottom-left','Bottom-right'],DRW_DIRS=['Horizontal','Vertical'],DRW_MODES=['None','Snake','Linear','Manual'];
 const DRW_COL={d:'#1747c4',p:'#c4161c'},DRW_TINT={d:['#dbe7ff','#f0f5ff'],p:['#ffdede','#fff1f1']},DRW_OPEN='#ffe45c',DRW_TITLE={plan:'Plan',data:'Data cables',power:'Power cables'};
+// colours for 'a different colour for every port and circuit': ten colours in an order where neighbours are far apart (CIE76 distance of at least 80
+// between neighbours and 35 to the one after), with a single green and no yellow, so no two cables next to each other look alike
+const DRW_PAL=['#1f4fd8','#c2185b','#00a0e0','#7a3b00','#7b2cbf','#5f6b7a','#d00000','#111827','#f07a00','#0b8f3a'];
+const drwCableCol=(n,K)=>S.drRainbow?DRW_PAL[(n-1)%DRW_PAL.length]:DRW_COL[K];
+const drwMix=(h,f)=>{const n=parseInt(h.slice(1),16),m=v=>Math.round(v+(255-v)*f).toString(16).padStart(2,'0');return '#'+m(n>>16)+m(n>>8&255)+m(n&255)};
 const drwCv=()=>CVS.length?cc:0;
 function drwText(items,t,x,y,size,o){o=o||{};if(o.fit){const w=pdfW(t,size,!!o.b);if(w>o.fit)size=Math.max(1.2,size*o.fit/w)}items.push(Object.assign({t:'text',s:t,x,y,size,a:'l'},o))}
 const drwNotes=()=>(Array.isArray(S.drNotes)?S.drNotes:[]).filter(n=>n&&n.c===drwCv()&&typeof n.t=='string');
@@ -1684,7 +1689,7 @@ function drwPlan(L,cab,kind){const items=[],{PW,PH,mg,s}=L,R=v=>Math.round(v*100
   text=(t,x,y,size,o)=>drwText(items,t,x,y,size,o),edit=drwTool!='move',gg=g=>edit?undefined:g,act=drwActiveKey();
  walls.forEach((w,i)=>{const b=L.bx[i],g='w'+i,[X,Y]=drwXY(L,i),Wp=b.W*s,Hp=b.H*s,mine=cab.filter(c=>c.wi==i),cov=new Map;let kg=0;mine.forEach(c=>c.pcs.forEach(p=>cov.set(p.key,c)));
   b.P.list.forEach(p=>{const px=X+p.x*b.kx*s,py=Y+p.y*b.ky*s,pw=p.w*b.kx*s,ph=p.h*b.ky*s,c=cov.get(p.key);kg+=p.sp.kg;
-   const fill=!C?'#ffffff':c?tint[c.n%2]:mine.length?DRW_OPEN:'#ffffff';
+   const fill=!C?'#ffffff':c?(S.drRainbow?drwMix(drwCableCol(c.n,K),.82):tint[c.n%2]):mine.length?DRW_OPEN:'#ffffff';
    rect(R(px),R(py),R(pw),R(ph),fill,'#555555',.15,gg(g),'t',edit?i+'|'+p.key:undefined);
    if(S.drNum&&Math.min(pw,ph)>=4){const fs=Math.min(C?5:2.6,pw*.26,ph*.26);if(fs>=1.1)text(String(p.id),R(px+.8),R(py+fs+.5),R(fs),{b:1,g:gg(g),pe:1})}});
   rect(R(X),R(Y),R(Wp),R(Hp),null,'#000000',C?.6:.4,g,'wo');
@@ -1701,7 +1706,7 @@ function drwPlan(L,cab,kind){const items=[],{PW,PH,mg,s}=L,R=v=>Math.round(v*100
    text(w.name||'Wall '+(i+1),R(X+Wp/2),R(Y+Hp+22),5,{a:'c',b:1,g});
    text(nc?`${nc} ${K=='d'?'data port':'power circuit'}${nc==1?'':'s'}`+(gap?`, ${gap} tile${gap==1?'':'s'} without a cable (yellow)`:''):K=='d'?'No data cabling. Set Pattern to Snake or Linear.':'No power cabling. Set Pattern to Snake or Linear.',R(X+Wp/2),R(Y+Hp+28),3.6,{a:'c',g})}});
  if(C){
-  for(const c of cab){if(!c.pts.length)continue;const g='w'+c.wi,mv=drwTool=='move'?g:undefined,hot=act&&act.wi==c.wi&&act.kind==K&&c.pcs[0]&&elKey(c.pcs[0].el)==act.key,a=c.pts[0],dir=c.dir,e=[a[0]+dir[0]*c.dist,a[1]+dir[1]*c.dist];
+  for(const c of cab){if(!c.pts.length)continue;const col=drwCableCol(c.n,K),g='w'+c.wi,mv=drwTool=='move'?g:undefined,hot=act&&act.wi==c.wi&&act.kind==K&&c.pcs[0]&&elKey(c.pcs[0].el)==act.key,a=c.pts[0],dir=c.dir,e=[a[0]+dir[0]*c.dist,a[1]+dir[1]*c.dist];
    if(c.pts.length>1)items.push({t:'pl',pts:c.pts.map(q=>[R(q[0]),R(q[1])]),col,lw:hot?1.9:1,g:mv});
    for(let k=1;k<c.pts.length;k++){const p0=c.pts[k-1],p1=c.pts[k],dx=p1[0]-p0[0],dy=p1[1]-p0[1],d=Math.hypot(dx,dy);if(d<3)continue;const ux=dx/d,uy=dy/d,mx=(p0[0]+p1[0])/2,my=(p0[1]+p1[1])/2,h=Math.min(3,d*.24),w2=h*.62;
     items.push({t:'poly',pts:[[R(mx+ux*h),R(my+uy*h)],[R(mx-ux*h-uy*w2),R(my-uy*h+ux*w2)],[R(mx-ux*h+uy*w2),R(my-uy*h-ux*w2)]],fill:col,g:mv})}
@@ -1711,10 +1716,10 @@ function drwPlan(L,cab,kind){const items=[],{PW,PH,mg,s}=L,R=v=>Math.round(v*100
    const lab=c.label+(c.over?'!':''),bw=Math.max(13,pdfW(lab,5.4,true)+4.5),bh=8,out=7,cx=e[0]+dir[0]*(out+(dir[0]?bw/2:0)),cy=e[1]+dir[1]*(out+(dir[1]?bh/2:0)),sx=e[0]+dir[0]*out,sy=e[1]+dir[1]*out;
    items.push({t:'pl',pts:[[R(a[0]),R(a[1])],[R(sx),R(sy)]],col,lw:1.5,g:mv});
    const ax=e[0]+dir[0]*3.6,ay=e[1]+dir[1]*3.6,ux=-dir[0],uy=-dir[1],vx=-uy,vy=ux;items.push({t:'poly',pts:[[R(ax+ux*2.6),R(ay+uy*2.6)],[R(ax-ux*2.6+vx*2.4),R(ay-uy*2.6+vy*2.4)],[R(ax-ux*2.6-vx*2.4),R(ay-uy*2.6-vy*2.4)]],fill:col,g:mv});
-   rect(R(cx-bw/2),R(cy-bh/2),R(bw),R(bh),c.over?'#ffd400':col,c.over?'#000000':'#ffffff',c.over?.6:.3,mv);text(lab,R(cx),R(cy),5.4,{a:'c',b:1,col:c.over?'#000000':'#ffffff',g:mv,pe:1})}
+   rect(R(cx-bw/2),R(cy-bh/2),R(bw),R(bh),c.over?'#ffd400':col,c.over?'#000000':'#ffffff',c.over?.6:.3,mv);text(lab,R(cx),R(cy),5.4,{a:'c',b:1,col:c.over?'#000000':lblInk(col),g:mv,pe:1})}
   // legend: how to read the sheet
   text(`${K=='d'?'DATA CABLING':'POWER CABLING'}  -  ${(K=='d'?S.drDataCable:S.drPowCable)||(K=='d'?'Data cable':'Power cable')}`,mg+4,mg+10,6.5,{b:1,col});
-  text('Follow the line from the big number at the wall edge.  Dot = start tile.  Square = last tile.  Arrows = direction.',mg+4,mg+17,3.6,{fit:PW-2*mg-8});
+  text('Follow the line from the big number at the wall edge.  Dot = start tile.  Square = last tile.  Arrows = direction.'+(S.drRainbow?'  Every cable has its own colour.':''),mg+4,mg+17,3.6,{fit:PW-2*mg-8});
   text('Yellow tile = no cable yet.  Yellow number with ! = more tiles on one cable than allowed.',mg+4,mg+22,3.6,{fit:PW-2*mg-8})}
  const notes=drwNotes();S.drNotes.forEach((n,k)=>{if(notes.includes(n))text(n.t,n.x,n.y,3.2,{g:'n'+k,note:1})});
  return{items,kind,scale:'1:'+L.N}}
@@ -1782,7 +1787,7 @@ const drwSelect=(k,l,o,v,w)=>`<label style="display:flex;flex-direction:column;g
 function drwPanel(kind){const el=$('#drwSide');if(!el)return;if(drwWi==null||!walls[drwWi])drwWi=cur;const w=walls[drwWi],i=drwWi,C=kind!='plan',D=kind=='data',bt=(a,l,on)=>`<button ${a} style="padding:5px 9px;cursor:pointer;${on?'background:#0b8aa6;color:#fff;border-color:#0b8aa6':''}">${l}</button>`;
  const blk=D?['wmode','wfill','wcorner','wdir']:['pmode','pfill','pcorner','pwdir'],kk=D?'d':'p';
  el.innerHTML=`<div style="display:flex;flex-direction:column;gap:6px"><b style="color:#e6edf3">Wall</b><select data-wpick style="padding:4px;font-size:12px">${walls.map((x,k)=>`<option value="${k}"${k==i?' selected':''}>${esc(x.name||'Wall '+(k+1))}</option>`).join('')}</select></div>
-<div style="display:flex;flex-direction:column;gap:4px"><b style="color:#e6edf3">Sheets</b>${procOn()?`<label><input type="checkbox" data-sh="drData"${S.drData?' checked':''}> Data cables sheet</label>`:''}${pdOn()?`<label><input type="checkbox" data-sh="drPow"${S.drPow?' checked':''}> Power cables sheet</label>`:''}${!procOn()&&!pdOn()?'<span style="color:#8a9aa8;font-size:12px">Pick an LED processor and a power distribution under Engineering to get the cabling sheets.</span>':''}</div>
+<div style="display:flex;flex-direction:column;gap:4px"><b style="color:#e6edf3">Sheets</b>${procOn()?`<label><input type="checkbox" data-sh="drData"${S.drData?' checked':''}> Data cables sheet</label>`:''}${pdOn()?`<label><input type="checkbox" data-sh="drPow"${S.drPow?' checked':''}> Power cables sheet</label>`:''}<label><input type="checkbox" data-sh="drRainbow"${S.drRainbow?' checked':''}> Colour per port and circuit</label>${!procOn()&&!pdOn()?'<span style="color:#8a9aa8;font-size:12px">Pick an LED processor and a power distribution under Engineering to get the cabling sheets.</span>':''}</div>
 ${C?`<div style="border-top:1px solid #27323c;padding-top:8px;display:flex;flex-direction:column;gap:6px"><b style="color:#e6edf3">${D?'Data cables':'Power cables'}</b><div style="display:flex;gap:6px;flex-wrap:wrap">${bt('data-t="move"','Move walls',!drwEditOn)}${bt('data-t="edit"','Edit cables',drwEditOn)}</div>${drwEditOn?`<div style="display:flex;gap:6px;flex-wrap:wrap"><button data-nc style="padding:5px 9px;cursor:pointer">New cable</button><button data-clr style="padding:5px 9px;cursor:pointer">Clear all</button></div>`:''}
 ${drwSelect(blk[0],'Pattern',DRW_MODES,w[blk[0]],i)}${drwSelect(blk[1],'Fill',D?WFILL:PFILL,w[blk[1]],i)}${drwSelect(blk[2],'Start corner',DRW_CORNERS,w[blk[2]],i)}${drwSelect(blk[3],'Direction',DRW_DIRS,w[blk[3]],i)}
 <div style="display:flex;gap:6px;flex-wrap:wrap"><button data-s="${kk}" style="padding:5px 9px;cursor:pointer">Suggest best</button><button data-sa="${kk}" style="padding:5px 9px;cursor:pointer">Suggest for all walls</button></div></div>`:''}`}
