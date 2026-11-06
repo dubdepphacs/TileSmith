@@ -371,7 +371,7 @@ const HALF={'Owl Vision Black Owl 3.9 500×1000':['Owl Vision Black Owl 3.9','h'
  'YES TECH MU 2.9 outdoor 500×1000':['YES TECH MU 2.9 outdoor','h'],'YES TECH MU 3.9 outdoor 500×1000':['YES TECH MU 3.9 outdoor','h'],
  'YES TECH MT II 3.9-7.8 1000×500':['YES TECH MT II 3.9-7.8 500×500','w']};
 const R={'1080p Full HD':[1920,1080],'4K UHD':[3840,2160],'2K DCI':[2048,1080],'4K DCI':[4096,2160],'720p HD':[1280,720],'32:9 Banner':[3840,1080]};
-const S={drTitle:'',drCompany:'',drClient:'',drVenue:'',drBy:'',drRev:'A',drPaper:'A3',drScale:'Auto',drDim:true,drNum:true,drData:true,drPow:true,drLogo:true,drNotes:[],dx:0,dy:0,cw:1920,ch:1080,ox:0,oy:0,cols:6,rows:4,preset:'Unilumin UpadIV 2.6',tw:192,th:192,wmm:500,hmm:500,dmm:70,kg:6.3,wmax:120,pitch:2.6,
+const S={drTitle:'',drCompany:'',drClient:'',drVenue:'',drBy:'',drRev:'A',drPaper:'A3',drScale:'Auto',drDim:true,drNum:true,drData:true,drPow:true,drLogo:true,drSlack:10,drSrc:[],drNotes:[],dx:0,dy:0,cw:1920,ch:1080,ox:0,oy:0,cols:6,rows:4,preset:'Unilumin UpadIV 2.6',tw:192,th:192,wmm:500,hmm:500,dmm:70,kg:6.3,wmax:120,pitch:2.6,
 bc:'#22d3ee',bt:3,rcfg:'',pat:'tileshade',tpos:true,half:[],gone:[],lay:{},gx:0,gy:0,ids:true,addr:false,mm:false,speed:1,dvdOn:false,dvdSrc:'TileSmith logo',dvdText:'TILESMITH',dvdArea:'Each LED wall',dvdSize:20,dvdSpeed:1,dvdCorner:10,dvdTint:true,dvdLoop:false,dvdLoopLen:30,dvdLoopCorners:true,rcard:'any',procAll:false,vIntro:5,vHold:10,vLed:true,vDvd:false,vCodec:'HAP (.mov)',hapFmt:'hap',name:'LED Wall',corner:'Top-left',dir:'Horizontal',wmode:'None',wcorner:'Top-left',wdir:'Horizontal',wfill:'Fewest ports',wman:[],pmode:'None',pcorner:'Top-left',pwdir:'Horizontal',pfill:'Fewest circuits',plink:0,pman:[],proc:'None',fps:60,bpc:8,ull:false,ppx:0,pports:0,ret:true,showData:true,pdist:false,pvolt:120,pamps:20,derate:true,showPow:true,resSl:'One slice per LED wall',pfit:'Stretch to wall',pdir:'none',pspd:1,patImg:null,loop:false,loopHold:3,shadeC:'#3f8080',boxMode:'Nothing',boxText:'',boxCol:'#ffffff',boxImg:null,
 ndiName:'TileSmith-LED-Out',ndiFps:60,ndiIdle:false,shName:'TileSmith',shFps:60,shIdle:true,shGpu:'Automatic',lblWhat:'Data and power',lblPow:'Cable and circuit labels',pdt:'Socapex (6 circuits per cable)',pwall:0,pwallA:20,lblSize:'Avery 5163 (10 per US Letter sheet)',lblLayout:'Two identical panels',lblFlag:'Big end blocks',lblWall:'Wall-shade block + name (several walls only)',lblW:62,lblH:29,lblCopies:1,lblColor:true,lblJump:false,lblKeep:true,lblSkip:1,hat:'#ffcc00',vest:'#b6ff00',tstyle:'Classic',tpack:'',logo:'TILESMITH',cd:true,play:true,font:'JetBrains Mono',hideEng:false};
 const FONTS={'JetBrains Mono':"'JetBrains Mono',ui-monospace,monospace",'OpenDyslexic':"'OpenDyslexic',sans-serif",'Current':"Barlow,system-ui,sans-serif"};
@@ -557,9 +557,9 @@ ${SUB('Power wiring <span class="wn"></span>',`<div id="pwireBox"><div class="g"
 <div id="pautoBox"><div style="color:var(--mu);font-size:12px">Power flow: pick the start corner and direction. Green is the first tile, red the last.</div><div id="ppat" class="wpat" role="group" aria-label="Power flow pattern"></div><div id="ppatl" style="font-size:12px"></div><div class="g">${F('pfill','Wiring preference','select',PFILL,'w')}</div><div id="pfilln" style="color:var(--mu);font-size:12px"></div></div>
 <div id="pmanBox"><div style="color:var(--mu);font-size:12px">Click Wire tiles, then click tiles or drag across them in the viewport, in power-link order. Drag back over a tile to take it off. A circuit stops accepting tiles when it is full.</div><div class="row">${B('pedit','Wire tiles')}${B('pnew','New circuit')}${B('pundo','Undo')}${B('pclr','Clear')}</div><div id="pmsg" class="bad" style="font-size:12px"></div></div>
 <div id="pstat" style="color:var(--mu);font-size:12px"></div></div>`,1)}</div>`,1)}
-${SUB('Drawings',`<div style="color:var(--mu);font-size:12px">Dimensioned build plans of every wall, made from this project. Open the editor to move walls and add notes, then export the sheets as a PDF.</div>
+${SUB('Drawings',`<div style="color:var(--mu);font-size:12px">Dimensioned build plans of every wall, made from this project. The editor shows the data and power cabling of the wall wiring, suggests a good layout and lets you change any cable. A cable schedule lists the estimated lengths. Export all sheets as a PDF.</div>
 <div class="g">${F('drTitle','Drawing title','text','','w')}${F('drCompany','Company','text','','w')}${F('drClient','Client','text')}${F('drVenue','Venue','text')}${F('drBy','Drawn by','text')}${F('drRev','Revision','text')}${F('drPaper','Paper','select',['A4','A3','A2','Letter','Tabloid'])}${F('drScale','Scale','select',DRW_SCALE_LIST)}
-${F('drDim','Dimensions','check')}${F('drNum','Tile numbers','check')}${F('drData','Data ports (needs an LED processor)','check')}${F('drPow','Power circuits (needs power distribution)','check')}${F('drLogo','Logo in the title block (the vest logo from Technician)','check')}</div>
+${F('drDim','Dimensions','check')}${F('drNum','Tile numbers','check')}${F('drData','Data cables (needs an LED processor)','check')}${F('drPow','Power cables (needs power distribution)','check')}${F('drSlack','Cable slack (%)','number','min=0 max=100 step=1')}${F('drLogo','Logo in the title block (the vest logo from Technician)','check')}</div>
 <div class="row">${B('drwopen','Open drawing editor')}${B('drwpdf','Export drawings (PDF)')}</div>`)}
 <h2>Animation Options</h2>${SUB('Test pattern <span class="wn"></span>','<div class="tpSlot" data-tp="anim"></div><div class="tpAway" style="font-size:12px;color:var(--mu)">Open in the canvas menu › Test pattern.</div>')}
 ${SUB('DVD screensaver',`${F('dvdOn','Bounce a logo around the screen','check')}
@@ -641,7 +641,7 @@ const allDone=()=>sims.every(x=>x.done);
 function buildSecs(){return Math.max(0,...walls.map((w,i)=>(i*STAG+tN(w)*4.8)/(S.speed*RATES[i%RATES.length])))}
 function setAll(k,v){S[k]=v;}
 function applyPreset(){const p=P[S.preset];if(!p)return;[S.wmm,S.hmm,S.tw,S.th,S.pitch,S.kg,S.wmax,S.dmm]=p}
-const LIM={lblW:[20,300],lblH:[10,300],lblCopies:[1,4],lblSkip:[1,500],cw:[16,8192],ch:[16,8192],ox:[-20000,20000],oy:[-20000,20000],cols:[1,64],rows:[1,64],tw:[8,2048],th:[8,2048],pitch:[.1,50],wmm:[10,3000],hmm:[10,3000],dmm:[1,1000],kg:[.1,500],wmax:[1,5000],bt:[1,8],pspd:[0,3],vIntro:[0,60],vHold:[0,120],speed:[.25,5],ppx:[0,50000000],pports:[1,1000],pamps:[1,400],pwall:[0,100],pwallA:[1,400],plink:[0,500],loopHold:[0,600],dvdSize:[5,60],dvdSpeed:[.25,3],dvdCorner:[0,100],dvdLoopLen:[4,600]};
+const LIM={drSlack:[0,100],lblW:[20,300],lblH:[10,300],lblCopies:[1,4],lblSkip:[1,500],cw:[16,8192],ch:[16,8192],ox:[-20000,20000],oy:[-20000,20000],cols:[1,64],rows:[1,64],tw:[8,2048],th:[8,2048],pitch:[.1,50],wmm:[10,3000],hmm:[10,3000],dmm:[1,1000],kg:[.1,500],wmax:[1,5000],bt:[1,8],pspd:[0,3],vIntro:[0,60],vHold:[0,120],speed:[.25,5],ppx:[0,50000000],pports:[1,1000],pamps:[1,400],pwall:[0,100],pwallA:[1,400],plink:[0,500],loopHold:[0,600],dvdSize:[5,60],dvdSpeed:[.25,3],dvdCorner:[0,100],dvdLoopLen:[4,600]};
 const HEAVY=['cw','ch','cols','rows','tw','th'];
 function applyKey(t){const k=t.dataset.k;if(!k)return;let v;
 if(t.type=='checkbox')v=t.checked;else if(t.type=='number'||t.type=='range'){v=+t.value;if(t.value===''||!isFinite(v))return;const L=LIM[k];if(L)v=Math.max(L[0],Math.min(L[1],v))}else{v=t.value;if(t.tagName=='SELECT'&&typeof S[k]=='number')v=+v}
@@ -1638,36 +1638,58 @@ async function exportPDF(){storeWall();toast('Building the PDF…',2500);await n
   dl(new Blob([pdfBuild(pages)],{type:'application/pdf'}),name);if(!MOBILE)toast(`Saved ${name} (${pages.length} page${pages.length==1?'':'s'}).`,4000)
  }catch(e){console.error(e);toast('Could not build the PDF: '+(e&&e.message||e),7000)}}
 // ===================== Drawings =====================
-// Dimensioned build plans of the walls, made from the project (Engineering > Drawings). drwBuild() makes one sheet per canvas as a
-// list of drawing items in paper millimetres. The same list is drawn on screen as SVG (editor with drag and drop) and written into
-// the PDF, so the screen and the paper always match. Each wall has a position on the sheet (dx, dy in wall mm) next to its automatic
-// place; notes sit on the sheet in paper mm.
+// Dimensioned build plans of the walls, made from the project (Engineering > Drawings). One sheet per canvas shows every wall with its
+// dimensions, tile numbers and the data and power cabling; a cable schedule sheet lists every cable with its estimated length.
+// The cabling is the app's own wiring (Data wiring and Power wiring): Snake, Linear or Manual, with the same port and circuit limits.
+// Suggest picks the pattern, start corner, direction and fill that need the fewest ports or circuits and the shortest cable, and
+// Edit cables changes any cable tile by tile. drwBuild() makes the items of a sheet in paper millimetres; the same list is drawn on
+// screen as SVG (editor with drag and drop) and written into the PDF, so the screen and the paper always match.
 const DRW_PAPER={A4:[297,210],A3:[420,297],A2:[594,420],Letter:[279.4,215.9],Tabloid:[431.8,279.4]};
 const DRW_SCALES=[5,10,20,25,30,40,50,75,100,150,200,250,300,400,500,750,1000,1500,2000,3000,5000];
 const DRW_SCALE_LIST=['Auto'].concat(DRW_SCALES.map(n=>'1:'+n));
+const DRW_CORNERS=['Top-left','Top-right','Bottom-left','Bottom-right'],DRW_DIRS=['Horizontal','Vertical'],DRW_MODES=['None','Snake','Linear','Manual'];
 const drwCv=()=>CVS.length?cc:0;
+function drwText(items,t,x,y,size,o){o=o||{};if(o.fit){const w=pdfW(t,size,!!o.b);if(w>o.fit)size=Math.max(1.2,size*o.fit/w)}items.push(Object.assign({t:'text',s:t,x,y,size,a:'l'},o))}
 const drwNotes=()=>(Array.isArray(S.drNotes)?S.drNotes:[]).filter(n=>n&&n.c===drwCv()&&typeof n.t=='string');
 function drwHex(h,s,l){const a=s*Math.min(l,1-l),f=n=>{const k=(n+h/30)%12,c=l-a*Math.max(-1,Math.min(k-3,9-k,1));return Math.round(255*c).toString(16).padStart(2,'0')};return '#'+f(0)+f(8)+f(4)}
+const drwCol=(kind,n)=>kind=='d'?drwHex(n*47%360,.8,.42):drwHex(n*61%360,.85,.45);
 function drwBox(w){const P2=pieces(w),kx=w.wmm/w.tw,ky=w.hmm/w.th;return{P:P2,kx,ky,W:P2.bw*kx,H:P2.bh*ky}}
-// one sheet of the canvas that is current right now (use eachCv to do every canvas)
-function drwBuild(sheet,sheets){
- if(!Array.isArray(S.drNotes))S.drNotes=[];
- const[PW,PH]=DRW_PAPER[S.drPaper]||DRW_PAPER.A3,mg=10,tb=30,items=[],
-  area={x:mg+16,y:mg+14,w:PW-2*mg-22,h:PH-2*mg-tb-14-18},bx=walls.map(drwBox),gap=Math.max(300,.06*Math.max(1,...bx.map(b=>b.W)));
+// ---- layout of the sheet: paper, drawing area, automatic place of every wall (bottom aligned in one row), scale
+function drwLayout(){
+ if(!Array.isArray(S.drNotes))S.drNotes=[];if(!Array.isArray(S.drSrc))S.drSrc=[];
+ const[PW,PH]=DRW_PAPER[S.drPaper]||DRW_PAPER.A3,mg=10,tb=30,area={x:mg+16,y:mg+14,w:PW-2*mg-22,h:PH-2*mg-tb-14-40},bx=walls.map(drwBox),
+  gap=Math.max(300,.06*Math.max(1,...bx.map(b=>b.W)));
  let x=0;const pos=bx.map(b=>{const p={x};x+=b.W+gap;return p}),wW=Math.max(1,x-gap),wH=Math.max(1,...bx.map(b=>b.H));pos.forEach((p,i)=>p.y=wH-bx[i].H);
- let N=/^1:\d+$/.test(S.drScale)?+S.drScale.slice(2):DRW_SCALES.find(n=>wW/n<=area.w&&wH/n<=area.h)||Math.ceil(Math.max(wW/area.w,wH/area.h));
- const s=1/N,ox=area.x+(area.w-wW*s)/2,oy=area.y+(area.h-wH*s)/2,
-  plan=S.drData&&procOn()?portPlan():null,pplan=S.drPow&&pdOn()?powerPlan():null,R=v=>Math.round(v*100)/100;
- const rect=(x,y,w,h,fill,stroke,lw,g,cls)=>items.push({t:'rect',x,y,w,h,fill,stroke,lw,g,cls}),line=(x1,y1,x2,y2,lw,g,col)=>items.push({t:'line',x1,y1,x2,y2,lw:lw||.2,g,col:col||'#000'}),
-  text=(t,x,y,size,o)=>{o=o||{};if(o.fit){const w=pdfW(t,size,!!o.b);if(w>o.fit)size=Math.max(1.2,size*o.fit/w)}items.push(Object.assign({t:'text',s:t,x,y,size,a:'l'},o))};
- walls.forEach((w,i)=>{const b=bx[i],g='w'+i,X=ox+(pos[i].x+(w.dx||0))*s,Y=oy+(pos[i].y+(w.dy||0))*s,Wp=b.W*s,Hp=b.H*s;
-  const portOf=new Map,powOf=new Map;if(plan)(plan[i]||[]).forEach(c=>c.tiles.forEach(e=>portOf.set(elKey(e),c.p)));if(pplan)(pplan[i]||[]).forEach(c=>c.tiles.forEach(e=>powOf.set(elKey(e),c.k)));
-  let kg=0;
-  b.P.list.forEach(p=>{const px=X+p.x*b.kx*s,py=Y+p.y*b.ky*s,pw=p.w*b.kx*s,ph=p.h*b.ky*s,pt=portOf.get(p.key),pc=powOf.get(p.key);kg+=p.sp.kg;
-   rect(R(px),R(py),R(pw),R(ph),pt?drwHex(pt*47%360,.5,.86):'#ffffff','#555555',.15,g);
-   if(pc)rect(R(px),R(py+ph*.86),R(pw),R(ph*.14),drwHex(pc*61%360,.7,.55),null,0,g);
-   const L=[];if(S.drNum)L.push(String(p.id));if(pt)L.push('P'+pt);if(pc)L.push('C'+pc);
-   if(L.length&&Math.min(pw,ph)>=4){const fs=Math.min(3.4,ph/(L.length+1.3)*.8,pw*.24);if(fs>=1.1)L.forEach((t,j)=>text(t,R(px+pw/2),R(py+ph/2+(j-(L.length-1)/2)*fs*1.3),R(fs),{a:'c',g,b:j==0&&S.drNum}))}});
+ const N=/^1:\d+$/.test(S.drScale)?+S.drScale.slice(2):DRW_SCALES.find(n=>wW/n<=area.w&&wH/n<=area.h)||Math.ceil(Math.max(wW/area.w,wH/area.h)),s=1/N;
+ return{PW,PH,mg,tb,area,bx,pos,N,s,ox:area.x+(area.w-wW*s)/2,oy:area.y+(area.h-wH*s)/2}}
+const drwXY=(L,i)=>[L.ox+(L.pos[i].x+(walls[i].dx||0))*L.s,L.oy+(L.pos[i].y+(walls[i].dy||0))*L.s];
+// where the processor and the power distribution sit on the sheet (centre of its box); dragged positions are kept in the project
+function drwSrc(L,k){const q=S.drSrc.find(o=>o&&o.c===drwCv()&&o.k===k);if(q&&isFinite(q.x)&&isFinite(q.y))return{x:q.x,y:q.y};return{x:L.area.x+L.area.w*(k=='d'?.3:.7),y:L.PH-L.mg-L.tb-9}}
+// one cable on the sheet: the path through its tiles, and the home run from the equipment box along a bus line under the wall
+function drwGeo(L,i,tiles,kind,src,yb){const w=walls[i],b=L.bx[i],[X,Y]=drwXY(L,i),s=L.s,off=Math.min(w.tw*b.kx,w.th*b.ky)*s*.16*(kind=='d'?-1:1),
+  pcs=tiles.map(e=>pieceOf(w,e)).filter(Boolean),pts=pcs.map(p=>[X+(p.x+p.w/2)*b.kx*s+off,Y+(p.y+p.h/2)*b.ky*s+off]);
+ let jump=0;for(let k=1;k<pts.length;k++)jump+=Math.hypot(pts[k][0]-pts[k-1][0],pts[k][1]-pts[k-1][1]);
+ const a=pts[0]||[X,Y],hr=[[src.x,src.y-5.5],[src.x,yb],[a[0],yb],[a[0],a[1]]],hl=Math.abs(hr[0][1]-yb)+Math.abs(a[0]-src.x)+Math.abs(yb-a[1]);
+ return{pcs,pts,jump,hr,hl}}
+// every cable of the current canvas, in drawing order: the app's own wiring plans (data ports and power circuits)
+function drwCables(L){storeWall();const plan=S.drData&&procOn()?portPlan():null,pp=S.drPow&&pdOn()?powerPlan():null,out=[],sl=1+Math.max(0,+S.drSlack||0)/100,
+  sd=plan?drwSrc(L,'d'):null,sp=pp?drwSrc(L,'p'):null;
+ walls.forEach((w,i)=>{const b=L.bx[i],[,Y]=drwXY(L,i);let k=0;const nb=(plan?(plan[i]||[]).length:0)+(pp?(pp[i]||[]).length:0),sg=Math.min(1.1,8/Math.max(1,nb));
+  const per=(chs,kind,src)=>chs.forEach(c=>{const n=kind=='d'?c.p:c.k,g=drwGeo(L,i,c.tiles,kind,src,Y+b.H*L.s+16+(k++)*sg);
+   out.push({kind,n,label:(kind=='d'?'P':'C')+n,wi:i,over:c.over,pcs:g.pcs,pts:g.pts,hr:g.hr,jumpMm:g.jump/L.s*sl,runMm:g.hl/L.s*sl,totalMm:(g.jump+g.hl)/L.s*sl,col:drwCol(kind,n)})});
+  if(plan)per(plan[i]||[],'d',sd);if(pp)per(pp[i]||[],'p',sp)});return out}
+// ---- the plan sheet (no frame yet)
+function drwPlan(L,cab){const items=[],{PW,PH,mg,s}=L,R=v=>Math.round(v*100)/100;
+ const rect=(x,y,w,h,fill,stroke,lw,g,cls,tk)=>items.push({t:'rect',x,y,w,h,fill,stroke,lw,g,cls,tk}),line=(x1,y1,x2,y2,lw,g,col)=>items.push({t:'line',x1,y1,x2,y2,lw:lw||.2,g,col:col||'#000'}),
+  text=(t,x,y,size,o)=>drwText(items,t,x,y,size,o);
+ const edit=drwTool!='move',mk=drwTool=='d'?'wman':'pman',wired=new Map;
+ cab.forEach(c=>{const m=wired.get(c.wi)||new Map;wired.set(c.wi,m);if(c.kind==(drwTool=='p'?'p':'d'))c.pcs.forEach(p=>m.set(p.key,1))});
+ walls.forEach((w,i)=>{const b=L.bx[i],g='w'+i,[X,Y]=drwXY(L,i),Wp=b.W*s,Hp=b.H*s;let kg=0;const col=new Map;
+  cab.filter(c=>c.wi==i&&c.kind=='d').forEach(c=>c.pcs.forEach(p=>col.set(p.key,c)));
+  b.P.list.forEach(p=>{const px=X+p.x*b.kx*s,py=Y+p.y*b.ky*s,pw=p.w*b.kx*s,ph=p.h*b.ky*s,c=col.get(p.key);kg+=p.sp.kg;
+   const open=edit&&!(wired.get(i)||new Map).has(p.key),fill=open?'#ffe3e3':c?drwHex(c.n*47%360,.5,.9):'#ffffff';
+   rect(R(px),R(py),R(pw),R(ph),fill,'#555555',.15,edit?undefined:g,'t',edit?i+'|'+p.key:undefined);
+   if(S.drNum&&Math.min(pw,ph)>=4){const fs=Math.min(2.6,pw*.22,ph*.22);if(fs>=1.1)text(String(p.id),R(px+.8),R(py+fs+.5),R(fs),{b:1,g:edit?undefined:g,pe:1})}});
   rect(R(X),R(Y),R(Wp),R(Hp),null,'#000000',.4,g,'wo');
   if(S.drDim){const d=6,tk=1.6,lw=.2;
    line(R(X),R(Y-d),R(X+Wp),R(Y-d),lw,g);line(R(X),R(Y-d-tk),R(X),R(Y-d+tk),lw,g);line(R(X+Wp),R(Y-d-tk),R(X+Wp),R(Y-d+tk),lw,g);
@@ -1676,69 +1698,157 @@ function drwBuild(sheet,sheets){
    line(R(X-d),R(Y),R(X-d),R(Y+Hp),lw,g);line(R(X-d-tk),R(Y),R(X-d+tk),R(Y),lw,g);line(R(X-d-tk),R(Y+Hp),R(X-d+tk),R(Y+Hp),lw,g);
    line(R(X-d+tk),R(Y),R(X-1),R(Y),.1,g,'#888888');line(R(X-d+tk),R(Y+Hp),R(X-1),R(Y+Hp),.1,g,'#888888');
    text(Math.round(b.H)+' mm',R(X-d-2.2),R(Y+Hp/2),3,{a:'c',rot:90,g})}
-  const cap=[[w.name||'Wall '+(i+1),1],[`${w.cols} x ${w.rows} grid, ${b.P.list.length} tiles, ${w.preset}`],[`${b.P.bw} x ${b.P.bh} px, ${R(kg)} kg`]];
-  cap.forEach(([t,bold],j)=>text(t,R(X+Wp/2),R(Y+Hp+5+j*3.8),bold?3.4:2.8,{a:'c',b:!!bold,g}))});
- // notes
+  const cp=[[w.name||'Wall '+(i+1),1],[`${w.cols} x ${w.rows} grid, ${b.P.list.length} tiles, ${w.preset}`],[`${b.P.bw} x ${b.P.bh} px, ${R(kg)} kg`]];
+  cp.forEach(([t,bold],j)=>text(t,R(X+Wp/2),R(Y+Hp+5+j*3.8),bold?3.4:2.8,{a:'c',b:!!bold,g}))});
+ // cables: home runs first (they stay put while a wall is dragged), then the paths on the tiles, arrows, start badges and end marks
+ const act=drwActiveKey();
+ cab.forEach(c=>{if(c.pts.length)items.push({t:'pl',pts:c.hr.map(q=>[R(q[0]),R(q[1])]),col:c.col,lw:.3,dash:c.kind=='p'?1.2:0})});
+ cab.forEach(c=>{const g='w'+c.wi,hot=act&&act.wi==c.wi&&act.kind==c.kind&&c.pcs[0]&&elKey(c.pcs[0].el)==act.key;if(c.pts.length<1)return;
+  if(c.pts.length>1)items.push({t:'pl',pts:c.pts.map(q=>[R(q[0]),R(q[1])]),col:c.col,lw:hot?.9:.5,dash:c.kind=='p'?1.4:0,g:drwTool=='move'?g:undefined});
+  for(let k=1;k<c.pts.length;k++){const a=c.pts[k-1],b=c.pts[k],dx=b[0]-a[0],dy=b[1]-a[1],d=Math.hypot(dx,dy);if(d<2)continue;const ux=dx/d,uy=dy/d,mx=(a[0]+b[0])/2,my=(a[1]+b[1])/2,h=Math.min(1.5,d*.2),w2=h*.55;
+   items.push({t:'poly',pts:[[R(mx+ux*h),R(my+uy*h)],[R(mx-ux*h-uy*w2),R(my-uy*h+ux*w2)],[R(mx-ux*h+uy*w2),R(my-uy*h-ux*w2)]],fill:c.col,g:drwTool=='move'?g:undefined})}
+  const e=c.pts[c.pts.length-1];if(c.pts.length>1)rect(R(e[0]-.7),R(e[1]-.7),1.4,1.4,c.col,null,0,drwTool=='move'?g:undefined);
+  const a=c.pts[0],tw=Math.max(5,pdfW(c.label,2.4,true)+1.8);rect(R(a[0]-tw/2),R(a[1]-1.5),R(tw),3,c.over?'#d00000':c.col,'#ffffff',.2,drwTool=='move'?g:undefined);
+  text(c.label,R(a[0]),R(a[1]),2.4,{a:'c',b:1,col:c.over?'#ffffff':lblInk(c.col),g:drwTool=='move'?g:undefined,pe:1})});
+ // equipment boxes
+ [['d','PROCESSOR',S.proc],['p','POWER DISTRIBUTION',S.pdt]].forEach(([k,cap,nm])=>{if(!cab.some(c=>c.kind==k)&&!(k=='d'?S.drData&&procOn():S.drPow&&pdOn()))return;const o=drwSrc(L,k),g='s'+k,bw=52,bh=11,col=k=='d'?'#0a6f80':'#b45309';
+  rect(R(o.x-bw/2),R(o.y-bh/2),bw,bh,'#ffffff',col,.5,g);text(cap,R(o.x),R(o.y-2.2),2.2,{a:'c',col,g,pe:1});text(nm||'',R(o.x),R(o.y+2.2),3,{a:'c',b:1,g,fit:bw-4,pe:1})});
  const notes=drwNotes();S.drNotes.forEach((n,k)=>{if(notes.includes(n))text(n.t,n.x,n.y,3.2,{g:'n'+k,note:1})});
- // frame and title block
+ return{items,kind:'plan',scale:'1:'+L.N}}
+// the active cable in Edit cables: the first tile of the cable that further clicks extend
+function drwActiveKey(){if(drwTool=='move'||drwWi==null||drwWi!==cur)return null;const mk=drwTool=='d'?'wman':'pman',ch=S[mk],c=Array.isArray(ch)&&ch[drwCi];return c&&c.length?{wi:cur,kind:drwTool,key:elKey(c[0])}:null}
+// ---- the cable schedule sheets
+function drwSchedule(L,cab){const rows=cab.map(c=>{const w=walls[c.wi],f=c.pcs[0],t=c.pcs[c.pcs.length-1];return[c.label,w.name||'Wall '+(c.wi+1),String(c.pcs.length),f?`tile ${f.id}`+(t&&t!==f?` to tile ${t.id}`:''):'-',(c.jumpMm/1000).toFixed(1),(c.runMm/1000).toFixed(1),(c.totalMm/1000).toFixed(1),c.over?'OVER LIMIT':'']});
+ const tot=k=>cab.filter(c=>c.kind==k).reduce((a,c)=>a+c.totalMm,0)/1000,hd=['Cable','Wall','Tiles','Path','Jumpers (m)','Home run (m)','Total (m)',''],cw=[20,62,16,56,30,30,28,30],tw=cw.reduce((a,b)=>a+b,0),sc=Math.min(1,(L.PW-2*L.mg-8)/tw),
+  rh=6.4,top=L.mg+24,per=Math.max(4,Math.floor((L.PH-L.mg-L.tb-top-16)/rh)-1),pages=[];
+ const nd=cab.filter(c=>c.kind=='d').length,np=cab.length-nd,sum=`Data: ${nd} port${nd==1?'':'s'}, ${tot('d').toFixed(1)} m.   Power: ${np} circuit${np==1?'':'s'}, ${tot('p').toFixed(1)} m.   Lengths are estimates: tile to tile and along the home run to the equipment boxes on the plan, plus ${Math.max(0,+S.drSlack||0)}% slack.`;
+ for(let a=0;a<rows.length||!pages.length;a+=per){const items=[],it=rows.slice(a,a+per);let y=top;
+  drwText(items,'Cable schedule',L.mg+4,L.mg+11,6,{b:1});drwText(items,sum,L.mg+4,L.mg+18,2.8,{fit:L.PW-2*L.mg-8});
+  const x0=L.mg+4;let x=x0;items.push({t:'rect',x:x0,y,w:tw*sc,h:rh,fill:'#dfe8ea',stroke:'#000000',lw:.2});hd.forEach((h,j)=>{drwText(items,h,x+1.5,y+4.4,3,{b:1});x+=cw[j]*sc});y+=rh;
+  it.forEach(r=>{x=x0;items.push({t:'rect',x:x0,y,w:tw*sc,h:rh,fill:r[7]?'#ffd9d9':null,stroke:'#999999',lw:.15});r.forEach((v,j)=>{drwText(items,v,x+1.5,y+4.4,3,{b:j==0,fit:cw[j]*sc-3});x+=cw[j]*sc});y+=rh});
+  if(!rows.length)drwText(items,'No cables yet. Turn on Data cables or Power cables, pick an LED processor or power distribution, and wire the walls.',x0,y+6,3.2);
+  pages.push({items,kind:'sched',scale:'-'})}return pages}
+// all pages of the current canvas (plan first), without frame and title block
+function drwCanvasPages(){const L=drwLayout(),cab=drwCables(L),pl=drwPlan(L,cab);pl.L=L;pl.cab=cab;return[pl].concat(S.drData&&procOn()||S.drPow&&pdOn()?drwSchedule(L,cab):[])}
+// frame and title block, added once the sheet number is known
+function drwFinish(pg,sheet,sheets,cvName){const Lx=drwLayout(),{PW,PH,mg,tb}=Lx,items=pg.items,rect=(x,y,w,h,fill,stroke,lw)=>items.push({t:'rect',x,y,w,h,fill,stroke,lw}),line=(x1,y1,x2,y2,lw)=>items.push({t:'line',x1,y1,x2,y2,lw,col:'#000000'}),
+  text=(t,x,y,size,o)=>drwText(items,t,x,y,size,o);
  rect(mg,mg,PW-2*mg,PH-2*mg,null,'#000000',.5);
  const ty=PH-mg-tb,tw=PW-2*mg,lw=44,rw=tw-lw,c0=rw*.36,cw=(rw-c0)/3,dt=new Date().toLocaleDateString(),logo=S.drLogo&&logoImg&&logoImg.width?logoImg:null;
  rect(mg,ty,tw,tb,null,'#000000',.4);line(mg+rw,ty,mg+rw,ty+tb,.3);line(mg+c0,ty,mg+c0,ty+tb,.3);line(mg+c0,ty+tb/2,mg+rw,ty+tb/2,.3);line(mg+c0+cw,ty,mg+c0+cw,ty+tb,.3);line(mg+c0+2*cw,ty,mg+c0+2*cw,ty+tb,.3);
- text('PLAN',mg+3,ty+5,2.2,{col:'#666666'});
+ text(pg.kind=='plan'?'PLAN':'CABLE SCHEDULE',mg+3,ty+5,2.2,{col:'#666666'});
  text(S.drTitle||'LED wall plan',mg+3,ty+13,6,{b:1,fit:c0-6});
- text((CVS.length>1&&CVS[cc]?CVS[cc].name+' - ':'')+'Front view, looking at the screens',mg+3,ty+20,3,{});
- if(S.drCompany)text(S.drCompany,mg+3,ty+26,3,{b:1});
+ text((cvName?cvName+' - ':'')+(pg.kind=='plan'?'Front view, looking at the screens':'Estimated cable lengths'),mg+3,ty+20,3,{fit:c0-6});
+ if(S.drCompany)text(S.drCompany,mg+3,ty+26,3,{b:1,fit:c0-6});
  const cell=(c,r,l,v)=>{const cx=mg+c0+c*cw+2.5,cy=ty+r*tb/2;text(l,cx,cy+4.5,2.2,{col:'#666666'});text(v||'-',cx,cy+11,3.6,{b:1,fit:cw-5})};
- cell(0,0,'CLIENT',S.drClient);cell(1,0,'VENUE',S.drVenue);cell(2,0,'DRAWN BY',S.drBy);cell(0,1,'DATE',dt);cell(1,1,'REVISION',S.drRev);cell(2,1,'SCALE / SHEET','1:'+N+'  ('+sheet+'/'+sheets+')');
+ cell(0,0,'CLIENT',S.drClient);cell(1,0,'VENUE',S.drVenue);cell(2,0,'DRAWN BY',S.drBy);cell(0,1,'DATE',dt);cell(1,1,'REVISION',S.drRev);cell(2,1,'SCALE / SHEET',pg.scale+'  ('+sheet+'/'+sheets+')');
  if(logo){const q=Math.min((lw-8)/logo.width,(tb-8)/logo.height);items.push({t:'img',x:mg+rw+(lw-logo.width*q)/2,y:ty+(tb-logo.height*q)/2,w:logo.width*q,h:logo.height*q,im:logo})}
  else text('TileSmith',mg+rw+lw/2,ty+tb/2+1.5,4,{a:'c',col:'#888888'});
- return{PW,PH,items,s,N,area}}
+ return{PW,PH,items,s:Lx.s,N:Lx.N,area:Lx.area,kind:pg.kind,cab:pg.cab||[]}}
+// ---- suggestion: the pattern, corner, direction and fill that need the fewest ports or circuits, then the shortest cable
+function drwSuggest(kind,wi){storeWall();const D=kind=='d';if(D?!procOn():!pdOn())return D?'Pick an LED processor first.':'Pick a power distribution first.';
+ const w0=walls[wi],L=drwLayout(),src=drwSrc(L,kind),sl=1+Math.max(0,+S.drSlack||0)/100,[,Y]=drwXY(L,wi),yb=Y+L.bx[wi].H*L.s+16,K=D?['wmode','wcorner','wdir','wfill']:['pmode','pcorner','pwdir','pfill'],fills=(D?WFILL:PFILL).slice(0,3);
+ let best=null,tried=0;
+ for(const mode of['Snake','Linear'])for(const corner of DRW_CORNERS)for(const dir of DRW_DIRS)for(const fill of fills){tried++;
+  const w=Object.assign({},w0,{[K[0]]:mode,[K[1]]:corner,[K[2]]:dir,[K[3]]:fill}),t=D?tpp(w):tpcW(w);if(t<1)return D?'One tile has more pixels than a port can drive at these settings.':'One tile draws more than a circuit can supply at these settings.';
+  const P2=pieces(w),q=P2.lay||P2.nh>0,chs=D?keepTiles(w,wallChains(w),t,false,fill==WFILL[2]):keepTiles(w,powChains(w),t,false,fill==PFILL[2]),all=chs.filter(c=>c.length),seen=new Set;
+  let ok=P2.list.length>0,len=0;
+  for(const c of all){const over=D?(q?c.reduce((a,e)=>{const x=pieceOf(w,e);return a+(x?x.w*x.h:0)},0)>S.ppx:c.length>t):(q?c.reduce((a,e)=>{const x=pieceOf(w,e);return a+(x?x.sp.W:0)},0)>circW()+1e-6||w.plink>0&&c.length>w.plink:c.length>t);
+   if(over){ok=false;break}for(const e of c){const k=elKey(e);if(seen.has(k)||!P2.by.has(k)){ok=false;break}seen.add(k)}if(!ok)break;
+   const g=drwGeo(L,wi,c,kind,src,yb);len+=(g.jump+g.hl)/L.s*sl}
+  if(!ok||seen.size!=P2.list.length)continue;
+  if(!best||all.length<best.n||all.length==best.n&&len<best.len-1)best={n:all.length,len,vals:[mode,corner,dir,fill]}}
+ if(!best)return 'No valid cabling found for this wall at the current port and circuit limits.';
+ K.forEach((k,j)=>{walls[wi][k]=best.vals[j];if(wi==cur)S[k]=best.vals[j]});
+ return `${walls[wi].name||'Wall '+(wi+1)}: ${D?'data':'power'} cabling suggested: ${best.vals[0]}, start ${best.vals[1].toLowerCase()}, ${best.vals[2].toLowerCase()}, ${best.vals[3].toLowerCase()}: ${best.n} ${D?'port':'circuit'}${best.n==1?'':'s'}, about ${(best.len/1000).toFixed(1)} m (checked ${tried} layouts).`}
+// ---- Edit cables: click tiles on the sheet. Start from the current cabling, then extend, cut or remove tile by tile.
+function drwEditTile(wi,key){const D=drwTool=='d',mk=D?'wman':'pman',md=D?'wmode':'pmode',add=D?manAdd:pmanAdd,msg=D?wireMsg:pwMsg,mid=D?'#wmsg':'#pmsg';
+ if(wi!=cur)selWall(wi);storeWall();drwWi=wi;
+ if(S[md]!='Manual'){const pl=(D?portPlan():powerPlan())[cur]||[];S[mk]=pl.map(c=>c.tiles.map(e=>Array.isArray(e)?e.slice():e));S[md]='Manual';drwCi=-1}
+ if(!Array.isArray(S[mk]))S[mk]=[];const ch=S[mk],P2=pieces(walls[cur]),p=P2.by.get(key);if(!p)return;let ci=-1,tj=-1;
+ ch.forEach((c,a)=>c.forEach((e,b)=>{if(elKey(e)==key){ci=a;tj=b}}));if(drwCi>=ch.length)drwCi=-1;
+ if(ci>=0){if(ci!=drwCi){drwCi=ci;drwMsg='Cable selected (drawn thicker). Click a tile without a cable to add it, its last tile to remove it, or an earlier tile to cut the cable there.'}
+  else if(tj==ch[ci].length-1){ch[ci].pop();drwMsg='Last tile taken off the cable.'}else{const n=ch[ci].length-tj-1;ch[ci].length=tj+1;drwMsg=`Cut the cable here. ${n} tile${n==1?'':'s'} no longer ${n==1?'has':'have'} a cable (shown in red).`}}
+ else{let nw=false;if(drwCi<0){ch.push([]);drwCi=ch.length-1;nw=true}const a=drwCi,c=ch.splice(a,1)[0];ch.push(c);msg('');add(p,'down');ch.splice(a,0,ch.pop());drwMsg=($(mid)&&$(mid).textContent)||(nw?'Started a new cable with this tile. Click the next tiles in order.':'Tile added to the cable.')}
+ storeWall();drwCommit()}
+function drwNewCable(){const D=drwTool=='d',mk=D?'wman':'pman',md=D?'wmode':'pmode';if(drwWi==null)return;if(drwWi!=cur)selWall(drwWi);storeWall();
+ if(S[md]!='Manual'){const pl=(D?portPlan():powerPlan())[cur]||[];S[mk]=pl.map(c=>c.tiles.map(e=>Array.isArray(e)?e.slice():e));S[md]='Manual'}
+ if(!Array.isArray(S[mk]))S[mk]=[];const l=S[mk][S[mk].length-1];if(!(l&&!l.length))S[mk].push([]);drwCi=S[mk].length-1;drwMsg='New cable started. Click tiles in order to add them.';storeWall();drwCommit()}
 // ---- on screen
-function drwSvg(d,sel){const e=esc,n=v=>+(+v).toFixed(3);let o=`<svg xmlns="http://www.w3.org/2000/svg" id="drwSvg" viewBox="0 0 ${d.PW} ${d.PH}" style="background:#fff;max-width:100%;max-height:100%;box-shadow:0 2px 14px rgba(0,0,0,.5)" font-family="Arial,Helvetica,sans-serif"><style>.sel{stroke:#0b8aa6!important}text.sel{fill:#0b8aa6}[data-g]{cursor:move}</style><rect width="${d.PW}" height="${d.PH}" fill="#fff"/>`;
- d.items.forEach(it=>{const g=it.g?` data-g="${it.g}"`:'',c=(it.g&&it.g==sel?' sel':'')+(it.cls?' '+it.cls:''),cl=c?` class="${c.trim()}"`:'';
-  if(it.t=='rect')o+=`<rect${g}${cl} x="${n(it.x)}" y="${n(it.y)}" width="${n(it.w)}" height="${n(it.h)}" fill="${it.fill||'none'}" stroke="${it.stroke||'none'}" stroke-width="${it.lw||0}"${it.cls=='wo'?' pointer-events="none"':''}/>`;
-  else if(it.t=='line')o+=`<line${g} x1="${n(it.x1)}" y1="${n(it.y1)}" x2="${n(it.x2)}" y2="${n(it.y2)}" stroke="${it.col}" stroke-width="${it.lw}"/>`;
+let drwSel=null,drwTool='move',drwCi=-1,drwWi=null,drwMsg='',drwPg=0;
+function drwSvg(d,sel){const e=esc,n=v=>+(+v).toFixed(3);let o=`<svg xmlns="http://www.w3.org/2000/svg" id="drwSvg" viewBox="0 0 ${d.PW} ${d.PH}" style="background:#fff;max-width:100%;max-height:100%;box-shadow:0 2px 14px rgba(0,0,0,.5)" font-family="Arial,Helvetica,sans-serif"><style>.sel{stroke:#0b8aa6!important}text.sel{fill:#0b8aa6}[data-g]{cursor:move}[data-tk]{cursor:pointer}[data-tk]:hover{stroke:#0b8aa6;stroke-width:.5}</style><rect width="${d.PW}" height="${d.PH}" fill="#fff"/>`;
+ d.items.forEach(it=>{const g=it.g?` data-g="${it.g}"`:'',tk=it.tk?` data-tk="${it.tk}"`:'',c=(it.g&&it.g==sel?' sel':'')+(it.cls?' '+it.cls:''),cl=c?` class="${c.trim()}"`:'',pe=it.pe||it.cls=='wo'?' pointer-events="none"':'';
+  if(it.t=='rect')o+=`<rect${g}${tk}${cl} x="${n(it.x)}" y="${n(it.y)}" width="${n(it.w)}" height="${n(it.h)}" fill="${it.fill||'none'}" stroke="${it.stroke||'none'}" stroke-width="${it.lw||0}"${it.cls=='wo'?' pointer-events="none"':''}/>`;
+  else if(it.t=='line')o+=`<line${g} x1="${n(it.x1)}" y1="${n(it.y1)}" x2="${n(it.x2)}" y2="${n(it.y2)}" stroke="${it.col}" stroke-width="${it.lw}" pointer-events="none"/>`;
+  else if(it.t=='pl')o+=`<polyline${g} points="${it.pts.map(q=>n(q[0])+','+n(q[1])).join(' ')}" fill="none" stroke="${it.col}" stroke-width="${it.lw}"${it.dash?` stroke-dasharray="${it.dash} ${it.dash}"`:''} stroke-linejoin="round" pointer-events="none"/>`;
+  else if(it.t=='poly')o+=`<polygon${g} points="${it.pts.map(q=>n(q[0])+','+n(q[1])).join(' ')}" fill="${it.fill}" pointer-events="none"/>`;
   else if(it.t=='text'){const a=it.a=='c'?'middle':it.a=='r'?'end':'start',y=it.a=='c'?it.y+.358*it.size:it.y,rot=it.rot?` transform="rotate(${-it.rot} ${n(it.x)} ${n(it.y)})"`:'';
-   o+=`<text${g}${cl} x="${n(it.x)}" y="${n(y)}" font-size="${it.size}" text-anchor="${a}" font-weight="${it.b?700:400}" fill="${it.col||'#000'}"${rot}>${e(it.s)}</text>`}
+   o+=`<text${g}${cl} x="${n(it.x)}" y="${n(y)}" font-size="${n(it.size)}" text-anchor="${a}" font-weight="${it.b?700:400}" fill="${it.col||'#000'}"${rot}${it.pe||!it.g?' pointer-events="none"':''}>${e(it.s)}</text>`}
   else if(it.t=='img'){try{const c2=document.createElement('canvas');c2.width=it.im.width;c2.height=it.im.height;c2.getContext('2d').drawImage(it.im,0,0);o+=`<image href="${c2.toDataURL('image/png')}" x="${n(it.x)}" y="${n(it.y)}" width="${n(it.w)}" height="${n(it.h)}"/>`}catch(err){}}});
  return o+'</svg>'}
-let drwSel=null;
-function drwRender(){const st=$('#drwStage');if(!st)return;const d=drwBuild(1,1);st.innerHTML=drwSvg(d,drwSel);st._d=d;const i=$('#drwInfo');if(i)i.textContent=`${S.drPaper} sheet, scale 1:${d.N}. Drag walls and notes to move them, double-click a note to edit it, Delete removes the selected note.`}
+function drwPages(){const ps=drwCanvasPages(),k=CVS.length>1&&CVS[cc]?CVS[cc].name:'';return ps.map((p,i)=>Object.assign(drwFinish(p,i+1,ps.length,k),{title:p.kind=='plan'?'Plan':'Cable schedule'+(ps.length>2?' '+i:'')}))}
+const drwSelect=(k,l,o,v,w)=>`<label style="display:flex;flex-direction:column;gap:2px;font-size:11px;color:#8a9aa8">${l}<select data-f="${k}" data-w="${w}" style="padding:4px;font-size:12px">${o.map(x=>`<option${x==v?' selected':''}>${esc(x)}</option>`).join('')}</select></label>`;
+function drwPanel(){const el=$('#drwSide');if(!el)return;if(drwWi==null||!walls[drwWi])drwWi=cur;const w=walls[drwWi],i=drwWi,tl=(a,l)=>`<button data-t="${a}" style="padding:5px 9px;cursor:pointer;${drwTool==a?'background:#0b8aa6;color:#fff;border-color:#0b8aa6':''}">${l}</button>`;
+ const blk=(D,on)=>on?`<div style="border-top:1px solid #27323c;padding-top:8px;display:flex;flex-direction:column;gap:6px"><b style="color:#e6edf3">${D?'Data cables':'Power cables'}</b>${drwSelect(D?'wmode':'pmode','Pattern',DRW_MODES,w[D?'wmode':'pmode'],i)}${drwSelect(D?'wfill':'pfill','Fill',D?WFILL:PFILL,w[D?'wfill':'pfill'],i)}${drwSelect(D?'wcorner':'pcorner','Start corner',DRW_CORNERS,w[D?'wcorner':'pcorner'],i)}${drwSelect(D?'wdir':'pwdir','Direction',DRW_DIRS,w[D?'wdir':'pwdir'],i)}<div style="display:flex;gap:6px;flex-wrap:wrap"><button data-s="${D?'d':'p'}" style="padding:5px 9px;cursor:pointer">Suggest best</button><button data-sa="${D?'d':'p'}" style="padding:5px 9px;cursor:pointer">Suggest for all walls</button></div></div>`:'';
+ el.innerHTML=`<div style="display:flex;flex-direction:column;gap:6px"><b style="color:#e6edf3">Wall</b><select data-wpick style="padding:4px;font-size:12px">${walls.map((x,k)=>`<option value="${k}"${k==i?' selected':''}>${esc(x.name||'Wall '+(k+1))}</option>`).join('')}</select></div>
+<div style="display:flex;flex-direction:column;gap:6px"><b style="color:#e6edf3">Tool</b><div style="display:flex;gap:6px;flex-wrap:wrap">${tl('move','Move')}${procOn()&&S.drData?tl('d','Edit data'):''}${pdOn()&&S.drPow?tl('p','Edit power'):''}</div>${drwTool!='move'?`<div style="display:flex;gap:6px;flex-wrap:wrap"><button data-nc style="padding:5px 9px;cursor:pointer">New cable</button><button data-clr style="padding:5px 9px;cursor:pointer">Clear all</button></div>`:''}</div>
+${blk(true,procOn()&&S.drData)}${blk(false,pdOn()&&S.drPow)}${!(procOn()&&S.drData)&&!(pdOn()&&S.drPow)?'<div style="color:#8a9aa8;font-size:12px">Pick an LED processor (and a power distribution) under Engineering, and tick Data cables or Power cables, to draw the cabling here.</div>':''}`}
+function drwSummary(d){const c=d.cab||[],nd=c.filter(x=>x.kind=='d'),np=c.filter(x=>x.kind=='p'),m=a=>(a.reduce((s,x)=>s+x.totalMm,0)/1000).toFixed(1),bad=c.filter(x=>x.over).length;
+ return [nd.length?`Data: ${nd.length} port${nd.length==1?'':'s'}, ${m(nd)} m`:'',np.length?`Power: ${np.length} circuit${np.length==1?'':'s'}, ${m(np)} m`:'',bad?`${bad} over the limit (red)`:''].filter(Boolean).join('   ')}
+function drwRender(){const st=$('#drwStage');if(!st)return;const ps=drwPages();if(drwPg>=ps.length)drwPg=0;const d=ps[drwPg];st.innerHTML=drwSvg(d,drwSel);st._d=d;
+ const sh=$('#drwSheet');if(sh){sh.innerHTML=ps.map((p,i)=>`<option value="${i}"${i==drwPg?' selected':''}>${p.title}</option>`).join('');sh.style.display=ps.length>1?'':'none'}
+ const i=$('#drwInfo');if(i)i.textContent=(drwMsg||(d.kind=='plan'?(drwTool=='move'?`${S.drPaper} sheet, scale 1:${d.N}. Drag walls, equipment boxes and notes. Double-click a note to edit it.`:'Click tiles to change the cabling. Tiles without a cable are red.'):'Cable schedule'))+(d.kind=='plan'&&drwSummary(d)?'   |   '+drwSummary(d):'');
+ drwPanel();const side=$('#drwSide');if(side)side.style.display=d.kind=='plan'?'':'none'}
 function drwNoteEdit(k){const st=$('#drwStage'),n=S.drNotes[k];if(!n)return;const el=st.querySelector(`[data-g="n${k}"]`),r=el?el.getBoundingClientRect():{left:200,top:200,height:20},old=$('#drwIn');if(old)old.remove();
  const i=document.createElement('input');i.id='drwIn';i.value=n.t;i.style.cssText=`position:fixed;left:${r.left}px;top:${r.top-4}px;min-width:160px;z-index:10001;font:14px sans-serif;padding:3px 6px`;document.body.appendChild(i);i.focus();i.select();
  let done=false;const fin=ok=>{if(done)return;done=true;const v=i.value.trim();i.remove();if(ok&&v)n.t=v.slice(0,200);else if(!v)S.drNotes.splice(k,1);drwSel=null;drwCommit()};
  i.addEventListener('keydown',e=>{e.stopPropagation();if(e.key=='Enter')fin(true);if(e.key=='Escape')fin(false)});i.addEventListener('blur',()=>fin(true))}
 function drwCommit(){storeWall();drwRender();try{unCheck('Drawing')}catch(e){}saveSoon()}
-function drwClose(){const o=$('#drwEd');if(o)o.remove();const i=$('#drwIn');if(i)i.remove();document.removeEventListener('keydown',drwKey,true);sync();saveSoon()}
+function drwClose(){const o=$('#drwEd');if(o)o.remove();const i=$('#drwIn');if(i)i.remove();document.removeEventListener('keydown',drwKey,true);drwTool='move';sync();saveSoon()}
 function drwKey(e){if(e.key=='Escape'&&!$('#drwIn')){drwClose();return}if((e.key=='Delete'||e.key=='Backspace')&&drwSel&&drwSel[0]=='n'&&!$('#drwIn')){e.preventDefault();S.drNotes.splice(+drwSel.slice(1),1);drwSel=null;drwCommit()}}
-function drwOpen(){storeWall();if(!Array.isArray(S.drNotes))S.drNotes=[];let o=$('#drwEd');if(o)o.remove();o=document.createElement('div');o.id='drwEd';o.style.cssText='position:fixed;inset:0;z-index:10000;background:#2a3036;display:flex;flex-direction:column;color:#e6edf3;font:13px sans-serif';
- const bt='style="padding:6px 12px;margin-right:8px;cursor:pointer"';
- o.innerHTML=`<div style="display:flex;gap:4px;align-items:center;padding:8px 12px;background:#151c23;flex-wrap:wrap"><button data-d="note" ${bt}>Add note</button><button data-d="reset" ${bt}>Reset layout</button><button data-d="pdf" ${bt}>Export PDF</button><button data-d="close" ${bt}>Close</button><span id="drwInfo" style="color:#8a9aa8"></span></div><div id="drwStage" style="flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:14px;touch-action:none"></div>`;
+function drwSetKey(i,k,v){walls[i][k]=v;if(i==cur)S[k]=v}
+function drwOpen(){storeWall();if(!Array.isArray(S.drNotes))S.drNotes=[];if(!Array.isArray(S.drSrc))S.drSrc=[];let o=$('#drwEd');if(o)o.remove();drwTool='move';drwWi=cur;drwCi=-1;drwMsg='';drwPg=0;
+ o=document.createElement('div');o.id='drwEd';o.style.cssText='position:fixed;inset:0;z-index:10000;background:#2a3036;display:flex;flex-direction:column;color:#e6edf3;font:13px sans-serif';
+ const bt='style="padding:6px 12px;margin-right:4px;cursor:pointer"';
+ o.innerHTML=`<div style="display:flex;gap:4px;align-items:center;padding:8px 12px;background:#151c23;flex-wrap:wrap"><button data-d="note" ${bt}>Add note</button><button data-d="reset" ${bt}>Reset layout</button><button data-d="pdf" ${bt}>Export PDF</button><button data-d="close" ${bt}>Close</button><select id="drwSheet" style="padding:6px;margin-right:8px;flex:none;width:auto;max-width:200px"></select><span id="drwInfo" style="color:#8a9aa8;flex:1;min-width:200px"></span></div><div style="flex:1;min-height:0;display:flex"><div id="drwStage" style="flex:1;min-width:0;display:flex;align-items:center;justify-content:center;padding:14px;touch-action:none"></div><div id="drwSide" style="width:250px;flex:none;overflow-y:auto;padding:12px;background:#151c23;display:flex;flex-direction:column;gap:12px"></div></div>`;
  document.body.appendChild(o);drwSel=null;drwRender();document.addEventListener('keydown',drwKey,true);
- o.addEventListener('click',e=>{const b=e.target.closest('[data-d]');if(!b)return;const a=b.dataset.d;
-  if(a=='close')drwClose();else if(a=='pdf')drwPdf();
-  else if(a=='reset'){walls.forEach((w,i)=>{w.dx=0;w.dy=0;if(i==cur){S.dx=0;S.dy=0}});S.drNotes=S.drNotes.filter(n=>n.c!==drwCv());drwSel=null;drwCommit()}
-  else if(a=='note'){const d=$('#drwStage')._d;S.drNotes.push({c:drwCv(),x:Math.round(d.area.x+d.area.w/2),y:Math.round(d.area.y+d.area.h/2),t:'Note'});drwSel='n'+(S.drNotes.length-1);drwRender();drwNoteEdit(S.drNotes.length-1)}});
+ o.addEventListener('click',e=>{const t=e.target,b=t.closest('[data-d]');
+  if(b){const a=b.dataset.d;
+   if(a=='close')drwClose();else if(a=='pdf')drwPdf();
+   else if(a=='reset'){walls.forEach((w,i)=>{w.dx=0;w.dy=0;if(i==cur){S.dx=0;S.dy=0}});S.drNotes=S.drNotes.filter(n=>n.c!==drwCv());S.drSrc=S.drSrc.filter(q=>q.c!==drwCv());drwSel=null;drwCommit()}
+   else if(a=='note'){const d=$('#drwStage')._d;S.drNotes.push({c:drwCv(),x:Math.round(d.area.x+d.area.w/2),y:Math.round(d.area.y+d.area.h/2),t:'Note'});drwSel='n'+(S.drNotes.length-1);drwRender();drwNoteEdit(S.drNotes.length-1)}return}
+  const tb=t.closest('[data-t]');if(tb){drwTool=tb.dataset.t;drwCi=-1;drwMsg=drwTool=='move'?'':'Click a cable tile to select that cable, or a tile without a cable to add it to the selected cable.';drwRender();return}
+  const sg=t.closest('[data-s]');if(sg){drwMsg=drwSuggest(sg.dataset.s,drwWi);drwCommit();return}
+  const sa=t.closest('[data-sa]');if(sa){const m=walls.map((w,i)=>drwSuggest(sa.dataset.sa,i));drwMsg=m.length>1?`Suggested for ${m.length} walls. ${m[m.length-1]}`:m[0];drwCommit();return}
+  if(t.closest('[data-nc]')){drwNewCable();return}
+  if(t.closest('[data-clr]')){const D=drwTool=='d',mk=D?'wman':'pman',md=D?'wmode':'pmode';if(drwWi!=cur)selWall(drwWi);S[mk]=[];S[md]='Manual';drwCi=-1;drwMsg='All cables of this wall removed. Click tiles to build them again.';drwCommit();return}
+  const tk=t.closest&&t.closest('[data-tk]');if(tk&&drwTool!='move'){const[wi,key]=tk.dataset.tk.split('|');drwEditTile(+wi,key)}});
+ o.addEventListener('change',e=>{const t=e.target;if(t.id=='drwSheet'){drwPg=+t.value;drwSel=null;drwRender();return}if(t.dataset.wpick!==undefined){drwWi=+t.value;drwCi=-1;drwRender();return}
+  if(t.dataset.f){drwSetKey(+t.dataset.w,t.dataset.f,t.value);drwMsg='';drwCommit()}});
  const st=$('#drwStage');let dr=null;const pt=e=>{const svg=$('#drwSvg');return new DOMPoint(e.clientX,e.clientY).matrixTransform(svg.getScreenCTM().inverse())};
- st.addEventListener('pointerdown',e=>{const el=e.target.closest&&e.target.closest('[data-g]');if(!el||e.button)return;const p=pt(e);dr={g:el.dataset.g,x:p.x,y:p.y,dx:0,dy:0};drwSel=dr.g;st.querySelectorAll('.sel').forEach(x=>x.classList.remove('sel'));st.querySelectorAll(`[data-g="${dr.g}"]`).forEach(x=>x.classList.add('sel'));st.setPointerCapture(e.pointerId);e.preventDefault()});
+ st.addEventListener('pointerdown',e=>{const el=e.target.closest&&e.target.closest('[data-g]');if(!el||e.button||drwTool!='move')return;const p=pt(e);dr={g:el.dataset.g,x:p.x,y:p.y,dx:0,dy:0};drwSel=dr.g;if(dr.g[0]=='w'){drwWi=+dr.g.slice(1);drwPanel()}
+  st.querySelectorAll('.sel').forEach(x=>x.classList.remove('sel'));st.querySelectorAll(`[data-g="${dr.g}"]`).forEach(x=>x.classList.add('sel'));st.setPointerCapture(e.pointerId);e.preventDefault()});
  st.addEventListener('pointermove',e=>{if(!dr)return;const p=pt(e);dr.dx=p.x-dr.x;dr.dy=p.y-dr.y;st.querySelectorAll(`[data-g="${dr.g}"]`).forEach(x=>x.setAttribute('transform',`translate(${dr.dx} ${dr.dy})`))});
- const up=()=>{if(!dr)return;const q=dr;dr=null;if(Math.abs(q.dx)+Math.abs(q.dy)<.05)return;const k=+q.g.slice(1);
-  if(q.g[0]=='w'){const w=walls[k],s=st._d.s;if(w){w.dx=Math.round(((w.dx||0)+q.dx/s)/10)*10;w.dy=Math.round(((w.dy||0)+q.dy/s)/10)*10;if(k==cur){S.dx=w.dx;S.dy=w.dy}}}
-  else{const n=S.drNotes[k];if(n){n.x=Math.round((n.x+q.dx)*2)/2;n.y=Math.round((n.y+q.dy)*2)/2}}drwCommit()};
+ const up=()=>{if(!dr)return;const q=dr;dr=null;if(Math.abs(q.dx)+Math.abs(q.dy)<.05)return;const k=q.g.slice(1);
+  if(q.g[0]=='w'){const w=walls[+k],s=st._d.s;if(w){w.dx=Math.round(((w.dx||0)+q.dx/s)/10)*10;w.dy=Math.round(((w.dy||0)+q.dy/s)/10)*10;if(+k==cur){S.dx=w.dx;S.dy=w.dy}}}
+  else if(q.g[0]=='s'){const L=drwLayout(),kk=k,o=drwSrc(L,kk),i=S.drSrc.findIndex(z=>z&&z.c===drwCv()&&z.k===kk),v={c:drwCv(),k:kk,x:Math.round((o.x+q.dx)*2)/2,y:Math.round((o.y+q.dy)*2)/2};if(i<0)S.drSrc.push(v);else S.drSrc[i]=v}
+  else{const n=S.drNotes[+k];if(n){n.x=Math.round((n.x+q.dx)*2)/2;n.y=Math.round((n.y+q.dy)*2)/2}}drwCommit()};
  st.addEventListener('pointerup',up);st.addEventListener('pointercancel',up);
  st.addEventListener('dblclick',e=>{const el=e.target.closest&&e.target.closest('[data-g^="n"]');if(el)drwNoteEdit(+el.dataset.g.slice(1))})}
 // ---- PDF
-function drwPdfPage(d,jp){const K=72/25.4,pg=new PdfPage(d.PW,d.PH,K);
+function drwPdfPage(d,jp){const K=72/25.4,pg=new PdfPage(d.PW,d.PH,K),poly=(pts,fill)=>{pg.o.push(pdfC(fill)+' rg '+pts.map((q,i)=>`${pg.X(q[0])} ${pg.Y(q[1])} ${i?'l':'m'}`).join(' ')+' h f')};
  d.items.forEach(it=>{if(it.t=='rect'){if(it.fill||it.stroke)pg.rect(it.x,it.y,it.w,it.h,it.fill||null,it.stroke||null,it.lw)}
   else if(it.t=='line')pg.line(it.x1,it.y1,it.x2,it.y2,it.col,it.lw);
+  else if(it.t=='pl'){for(let k=1;k<it.pts.length;k++)pg.line(it.pts[k-1][0],it.pts[k-1][1],it.pts[k][0],it.pts[k][1],it.col,it.lw,it.dash||0)}
+  else if(it.t=='poly')poly(it.pts,it.fill);
   else if(it.t=='text'){const b=!!it.b;if(it.a=='c')pg.textC(it.s,it.x,it.y,it.size,b,it.col,it.rot);else pg.text(it.s,it.x-(it.a=='r'?pdfW(it.s,it.size,b):0),it.y,it.size,b,it.col,it.rot)}
   else if(it.t=='img'&&jp){pg.img=jp;pg.o.push(`q ${pdfN(it.w*K)} 0 0 ${pdfN(it.h*K)} ${pdfN(it.x*K)} ${pdfN((d.PH-it.y-it.h)*K)} cm /Im1 Do Q`)}});return pg}
 // the title-block logo as a JPEG on white (the PDF writer takes one JPEG image per page)
 function drwLogoJpg(){if(!S.drLogo||!logoImg||!logoImg.width)return null;const c=document.createElement('canvas');c.width=logoImg.width;c.height=logoImg.height;const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(logoImg,0,0);
  const u=c.toDataURL('image/jpeg',.92),bin=atob(u.slice(u.indexOf(',')+1)),b=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)b[i]=bin.charCodeAt(i);return{w:c.width,h:c.height,b}}
-async function drwPdf(){storeWall();if(!Array.isArray(S.drNotes))S.drNotes=[];toast('Building the drawings…',2500);await new Promise(r=>setTimeout(r,30));
- try{const pages=[],total=CVS.length||1,jp=drwLogoJpg();let k=0;eachCv(()=>{pages.push(drwPdfPage(drwBuild(++k,total),jp))});
-  const dt=new Date(),name=`TileSmith-drawings-${dt.getFullYear()}${String(dt.getMonth()+1).padStart(2,'0')}${String(dt.getDate()).padStart(2,'0')}.pdf`;
+async function drwPdf(){storeWall();toast('Building the drawings…',2500);await new Promise(r=>setTimeout(r,30));
+ try{const all=[],jp=drwLogoJpg();eachCv(()=>{const ps=drwCanvasPages(),name=CVS.length>1&&CVS[cc]?CVS[cc].name:'';ps.forEach(p=>all.push({p,name}))});
+  const pages=all.map((a,i)=>drwPdfPage(drwFinish(a.p,i+1,all.length,a.name),jp)),dt=new Date(),name=`TileSmith-drawings-${dt.getFullYear()}${String(dt.getMonth()+1).padStart(2,'0')}${String(dt.getDate()).padStart(2,'0')}.pdf`;
   dl(new Blob([pdfBuild(pages)],{type:'application/pdf'}),name);if(!MOBILE)toast(`Saved ${name} (${pages.length} sheet${pages.length==1?'':'s'}).`,4000)}catch(e){console.error(e);toast('Could not build the drawings: '+(e&&e.message||e),7000)}}
 // ---------- send a canvas to a display (desktop app): a borderless full-screen window on that display, opened from this page so the
 // canvas is drawn straight into it every frame (no copying between processes). The canvas element is sized in device pixels, so one
