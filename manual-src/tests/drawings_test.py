@@ -58,6 +58,11 @@ async def main():
           const de=(a,b)=>Math.hypot(...lab(a).map((v,i)=>v-lab(b)[i])),P=DRW_PAL,n=P.length;let m1=1e9,m2=1e9;for(let i=0;i<n;i++){m1=Math.min(m1,de(P[i],P[(i+1)%n]));m2=Math.min(m2,de(P[i],P[(i+2)%n]))}
           S.drRainbow=true;const c=drwCables(drwLayout('data'),'d'),cols=c.map(x=>drwCableCol(x.n,'d'));const sameNeighbour=cols.some((x,i)=>i&&x==cols[i-1]);S.drRainbow=false;return{n,m1:Math.round(m1),m2:Math.round(m2),sameNeighbour,distinct:new Set(cols).size>1}}""")
         chk(pal['m1'] >= 60 and pal['m2'] >= 30 and not pal['sameNeighbour'] and pal['distinct'], f'colour per port: neighbouring cables are clearly different {pal}')
+        # a wall that is not a rectangle: the outline follows the removed tiles instead of the bounding box
+        st = await pg.evaluate("""()=>{const w=walls[0];const old=[w.gone,S.gone];const g=[];for(let r=0;r<w.rows;r++)for(let c=w.cols-2;c<w.cols;c++)if(r<2)g.push([c,r]);w.gone=g;if(cur==0)S.gone=g;
+          const d=drwSheetOf('plan',1,1,''),L=d.items.filter(i=>i.t=='line'&&i.lw==.4&&i.g=='w0'),top=Math.min(...L.map(i=>i.y1)),topX=Math.max(...L.filter(i=>i.y1==top&&i.y2==top).map(i=>i.x2)),allX=Math.max(...L.map(i=>Math.max(i.x1,i.x2)));
+          w.gone=old[0];if(cur==0)S.gone=old[1];return{top:topX,all:allX}}""")
+        chk(st['top'] < st['all'] - 5, f'a stepped wall is outlined along its real shape {st}')
         sh = await pg.evaluate("()=>{S.drPow=false;const a=drwKinds();S.drPow=true;S.drData=false;const b=drwKinds();S.drData=true;return[a,b,drwKinds()]}")
         chk(sh == [['plan', 'data'], ['plan', 'power'], ['plan', 'data', 'power']], f'data and power sheets can be switched off {sh}')
         await pg.select_option('#drwSheet', '0')

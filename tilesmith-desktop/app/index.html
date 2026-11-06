@@ -1692,7 +1692,9 @@ function drwPlan(L,cab,kind){const items=[],{PW,PH,mg,s}=L,R=v=>Math.round(v*100
    const fill=!C?'#ffffff':c?(S.drRainbow?drwMix(drwCableCol(c.n,K),.82):tint[c.n%2]):mine.length?DRW_OPEN:'#ffffff';
    rect(R(px),R(py),R(pw),R(ph),fill,'#555555',.15,gg(g),'t',edit?i+'|'+p.key:undefined);
    if(S.drNum&&Math.min(pw,ph)>=4){const fs=Math.min(C?5:2.6,pw*.26,ph*.26);if(fs>=1.1)text(String(p.id),R(px+.8),R(py+fs+.5),R(fs),{b:1,g:gg(g),pe:1})}});
-  rect(R(X),R(Y),R(Wp),R(Hp),null,'#000000',C?.6:.4,g,'wo');
+  // the outline follows the real shape of the wall (removed tiles, half tiles): an edge is drawn where no tile lies on its other side
+  b.P.list.forEach(p=>{[[p.x,p.y,p.x+p.w,p.y,p.x+p.w/2,p.y-1],[p.x,p.y+p.h,p.x+p.w,p.y+p.h,p.x+p.w/2,p.y+p.h+1],[p.x,p.y,p.x,p.y+p.h,p.x-1,p.y+p.h/2],[p.x+p.w,p.y,p.x+p.w,p.y+p.h,p.x+p.w+1,p.y+p.h/2]].forEach(([x1,y1,x2,y2,tx,ty])=>{
+   if(!pieceAt(w,tx,ty))line(R(X+x1*b.kx*s),R(Y+y1*b.ky*s),R(X+x2*b.kx*s),R(Y+y2*b.ky*s),C?.6:.4,g)})});
   if(!C&&S.drDim){const d=6,tk=1.6,lw=.2;
    line(R(X),R(Y-d),R(X+Wp),R(Y-d),lw,g);line(R(X),R(Y-d-tk),R(X),R(Y-d+tk),lw,g);line(R(X+Wp),R(Y-d-tk),R(X+Wp),R(Y-d+tk),lw,g);
    line(R(X),R(Y-d+tk),R(X),R(Y-1),.1,g,'#888888');line(R(X+Wp),R(Y-d+tk),R(X+Wp),R(Y-1),.1,g,'#888888');
