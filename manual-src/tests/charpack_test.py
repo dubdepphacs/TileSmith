@@ -15,7 +15,7 @@ async def main():
             print(('PASS ' if c else 'FAIL ') + m); ok = ok and c
         chk('Character pack' in await pg.evaluate("()=>[...document.querySelector('[data-k=tstyle]').options].map(o=>o.value)"), 'style list has Character pack')
         names = await pg.evaluate("()=>[...PK.values()].filter(r=>r.builtin).map(r=>r.name)")
-        chk(names == ['Khalid', 'Yuki', 'Kenji', 'Maria'], f'four built-in characters {names}')
+        chk(names == ['Khalid', 'Yuki', 'Kenji', 'Maria'] + [n + ' (Vision Concept)' for n in ['Khalid', 'Yuki', 'Kenji', 'Maria']], f'four built-in characters plus their Vision Concept versions {names}')
         k = await pg.evaluate("()=>{const r=PK.get('builtin-khalid');return r?{n:Object.keys(r.files).filter(x=>!x.includes('~')).length,views:[...new Set(Object.keys(r.files).map(x=>x.split('/')[0]))].sort(),b:!!r.builtin}:null}")
         chk(k and k['n'] == 24 and k['views'] == ['back', 'front', 'three_quarter'] and k['b'], f'built-in Khalid present {k}')
         await pg.evaluate("()=>{const e=document.querySelector('[data-k=tstyle]');e.value='Character pack';e.dispatchEvent(new Event('input',{bubbles:true}))}")
@@ -55,7 +55,7 @@ async def main():
         proj = await pg.evaluate("()=>{const o=stateObj();o.rc=rcForProject();o.pk=pkForProject();return JSON.stringify(o)}")
         chk(len(json.loads(proj)['pk']) == 1, 'project carries your pack')
         await pg.evaluate("()=>{indexedDB.deleteDatabase('tilesmith-packs');localStorage.clear()}"); await pg.reload(); await pg.wait_for_timeout(1000)
-        chk(await pg.evaluate("()=>PK.size") == 4, 'clean device has only the four built-in packs')
+        chk(await pg.evaluate("()=>PK.size") == 8, 'clean device has only the eight built-in packs')
         await pg.evaluate("()=>{window.NB=[...PK.values()].filter(r=>r.builtin).length}"); await pg.evaluate("(s)=>applyState(JSON.parse(s))", proj); await pg.wait_for_timeout(500)
         chk(await pg.evaluate("()=>PK.size==NB+1&&pkFor(crew[0])!=''"), 'opening the project adds the pack and the crew assignment')
         # loose PNG files with view prefixes
@@ -77,6 +77,15 @@ async def main():
             const d=x.getImageData(0,0,g.width,g.height).data;let r=0,gr=0,n=0;for(let i=0;i<d.length;i+=4)if(d[i+3]>200){r+=d[i];gr+=d[i+1];n++}return[r/n,gr/n]};
           return [f('#ff6a00'),f('#b6ff00')]}""")
         chk(px[1][1] > px[0][1] + 15, f'vest colour setting recolours the pack art {px}')
+        # Vision Concept crew: fixed neon orange vest (ignores the vest setting), logo on chest and back, never copied into projects
+        vc = await pg.evaluate("""()=>{S.tstyle='Character pack';S.cd=false;pkLoad('builtin-vc-khalid');return new Promise(r=>setTimeout(()=>{
+          const m=[...crew[0]];m[4]='builtin-vc-khalid';const g=(vest,th)=>{S.vest=vest;PKT.clear();const c=document.createElement('canvas');c.width=c.height=400;const x=c.getContext('2d');drawTech(x,200,380,380,{th,mv:0,m,ix:0,hands:null,g:0});const d=x.getImageData(0,0,400,400).data;let o=0,k=0;
+            for(let i=0;i<d.length;i+=4){if(d[i+3]>200&&d[i]>230&&d[i+1]>70&&d[i+1]<130&&d[i+2]<40)o++;if(d[i+3]>200&&d[i]<40&&d[i+1]<40&&d[i+2]<40)k++}return[o,k]};
+          const a=g('#b6ff00',Math.PI/2),b=g('#f5e800',Math.PI/2),back=g('#b6ff00',-Math.PI/2),plain=PK.get('builtin-khalid');
+          r({orange:a[0],same:a[0]==b[0],backBlack:back[1],proj:(crew[0][4]='builtin-vc-khalid',S.tpack='builtin-vc-khalid',Object.keys(pkForProject()).length),vc:PK.get('builtin-vc-khalid').builtin})},900))}""")
+        chk(vc['orange'] > 3000 and vc['same'], f'Vision Concept vest stays neon orange whatever the vest setting says {vc}')
+        chk(vc['backBlack'] > 2000, 'Vision Concept logo is drawn on the back')
+        chk(vc['proj'] == 0 and vc['vc'], 'Vision Concept packs are built in and not copied into projects')
         chk(not errs, f'no page errors {errs[:3]}')
         await b.close(); print('ALL OK' if ok else 'FAILED'); sys.exit(0 if ok else 1)
 asyncio.run(main())
