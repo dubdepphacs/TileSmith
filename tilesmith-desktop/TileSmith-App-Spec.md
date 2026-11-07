@@ -1,6 +1,6 @@
 # TileSmith 3.5 - app specification for building a clone
 
-Generated 2026-10-28 from TileSmith v3.5 (`app/index.html`). This file describes what the app does, how it looks,
+Generated 2026-11-07 from TileSmith v3.5 (`app/index.html`). This file describes what the app does, how it looks,
 how every feature behaves and the exact numbers and formulas behind it, so another AI model or developer can rebuild it,
 for example as an Android app. Tables of presets, processors, patterns, settings and formats are read from the app
 itself when this file is generated, so they match the version it ships with. Section 15 has notes for Android.
@@ -60,6 +60,7 @@ the selected wall.
     - Data wiring
   - Power
     - Power wiring
+  - Drawings
 - **Animation Options**
   - Test pattern
   - DVD screensaver
@@ -165,6 +166,23 @@ dialog) deletes the state and reloads.
 
 | Key | Default | Meaning |
 |---|---|---|
+| `drTitle` |  | Drawings: drawing title in the title block (empty = "LED wall plan"). |
+| `drCompany` |  | Drawings: company line in the title block. |
+| `drClient` |  | Drawings: client. |
+| `drVenue` |  | Drawings: venue. |
+| `drBy` |  | Drawings: drawn by. |
+| `drRev` | A | Drawings: revision (default A). |
+| `drPaper` | A3 | Drawings: paper A4 \| A3 (default) \| A2 \| Letter \| Tabloid, landscape. |
+| `drScale` | Auto | Drawings: Auto (the smallest standard scale 1:5 ... 1:5000 that fits) or a fixed 1:N. |
+| `drDim` | true | Drawings: dimension lines and mm sizes on the plan sheet. |
+| `drNum` | true | Drawings: tile numbers. |
+| `drData` | true | Drawings: make the data cabling sheet (needs an LED processor). |
+| `drPow` | true | Drawings: make the power cabling sheet (needs a power distribution). |
+| `drLogo` | true | Drawings: put the vest logo (logoImg) in the title block. |
+| `drDataCable` | CAT6 etherCON | Drawings: name of the data cable on the data sheet (default "CAT6 etherCON"). |
+| `drPowCable` | powerCON TRUE1 | Drawings: name of the power cable on the power sheet (default "powerCON TRUE1"). |
+| `drRainbow` | false | Drawings: a different colour for every port and circuit (the 10-colour palette DRW_PAL), else data blue and power red. |
+| `drNotes` | [] | Drawings: free notes [{c: canvas index, x, y (paper mm), t: text}]. |
 | `cw` | 1920 | Canvas width in px (16-8192) of the selected canvas. Each canvas is a raster sent over its own NDI / Spout / Syphon source and recorded to its own video. Projects store every canvas in cvs:[{name,cw,ch,cur,walls}] with ac = the selected canvas (its walls are the top-level walls, cvs[ac].walls is null). |
 | `ch` | 1080 | Canvas height in px (16-8192). |
 | `bc` | #22d3ee | Tile border colour (overlay drawn on every lit tile). |
@@ -202,8 +220,8 @@ dialog) deletes the state and reloads.
 | `ret` | true | Count a return port (R#) for every primary port. |
 | `showData` | true | Draw data paths on the canvas. |
 | `pdist` | false | Power distribution ticked. Gates all power features. |
-| `pvolt` | 120 | Circuit voltage: 100, 110, 120, 208, 220, 230 or 240 V. |
-| `pamps` | 20 | Breaker size in amps (1-400). |
+| `pvolt` | 230 | Circuit voltage: 230 (default), 240, 220, 208, 120, 110 or 100 V. |
+| `pamps` | 16 | Breaker size in amps (1-400, default 16). |
 | `derate` | true | Load circuits to 80% (continuous load rule). |
 | `showPow` | true | Draw power runs on the canvas. |
 | `resSl` | One slice per LED wall | Resolume XML slice mode: One slice per LED wall \| One slice per tile. |
@@ -218,10 +236,10 @@ dialog) deletes the state and reloads.
 | `shGpu` | Automatic | Spout graphics card (Windows): Automatic (the high-performance card) or a card name from the list. The receiver must be on the same card. |
 | `lblWhat` | Data and power | Label printing: which cables to label: Data and power (default), Data only, Power only. |
 | `lblPow` | Cable and circuit labels | Power labels: "Cable and circuit labels" (default), "Circuit labels only", "Cable labels only". |
-| `pdt` | Socapex (6 circuits per cable) | Distribution cable: "Socapex (6 circuits per cable)" (default), "L14-30 (2 circuits per cable)" "L21-30 (3 circuits per cable)" or "powerCON to Edison (1 circuit per cable)". Choosing Edison sets pvolt 120 and pamps 15. |
-| `pwall` | 0 | Edison only: plugs per wall circuit (0-100, default 0 = no wall-circuit check). |
-| `pwallA` | 20 | Edison only: wall circuit breaker in amps (1-400, default 20). |
-| `lblSize` | Avery 5163 (10 per US Letter sheet) | Label sheet preset: Avery 5160 (30 per US Letter), Avery 5163 (10 per US Letter), Avery L7160 (21 per A4), Label roll 62 x 29 mm, or Custom label roll. |
+| `pdt` | powerCON TRUE1 to Schuko (1 circuit per cable) | Distribution cable: "powerCON TRUE1 to Schuko (1 circuit per cable)" (default), "powerCON TRUE1 to CEE 16 A (1 circuit per cable)", "CEE 16 A 3-phase (3 circuits per cable)", "CEE 32 A 3-phase (3 circuits per cable)", "Socapex (6 circuits per cable)", and for tours in North America "L14-30 (2 circuits per cable)", "L21-30 (3 circuits per cable)" and "powerCON to Edison (1 circuit per cable)". The two one-circuit European cables set pvolt 230 and pamps 16, Edison sets pvolt 120 and pamps 15. A value that is not in the list (an old project) uses the first entry. |
+| `pwall` | 0 | One-circuit cables only (Schuko, CEE 16 A, Edison): plugs per wall circuit (0-100, default 0 = no wall-circuit check). |
+| `pwallA` | 16 | One-circuit cables only: wall circuit breaker in amps (1-400, default 16). |
+| `lblSize` | Avery L7163 (14 per A4 sheet) | Label sheet preset: Avery L7163 (14 per A4, default), Avery L7162 (16 per A4), Avery L7160 (21 per A4), Label roll 62 x 29 mm, Wrap-around strip 100 x 30 mm, Custom label roll, and for North America Avery 5160 (30 per US Letter) and Avery 5163 (10 per US Letter). |
 | `lblLayout` | Two identical panels | Wrap layout: Two identical panels (default), Flag fold-over (second panel rotated 180 degrees), Text in the middle, colour on the ends. |
 | `lblFlag` | Big end blocks | Colour flag style: Big end blocks (default), Top and bottom bars, Big corner squares. |
 | `lblWall` | Wall-shade block + name (several walls only) | Wall mark: Wall-shade block + name (several walls only, default), Always show wall mark, Wall tint + block (light tint of the wall shade as label background). |
@@ -246,6 +264,8 @@ dialog) deletes the state and reloads.
 
 | Key | Default | Meaning |
 |---|---|---|
+| `dx` | 0 | Wall key (Drawings): the wall's offset on the drawing sheets in wall mm, set by dragging (0 = automatic place). |
+| `dy` | 0 | Wall key (Drawings): like dx, downwards. |
 | `half` | [] | Legacy half-tile marks from v3.2 previews ([col,row,side]); converted to "lay" on load. |
 | `gone` | [] | Removed tiles on a plain grid: list of [col,row]. |
 | `lay` | {} | Half-tile layout: {} for a plain grid, or {s: split "h"\|"w", uc/ur: unit grid size when last edited, p: [[u,v,unitsWide,unitsTall],...]}. |
@@ -735,15 +755,15 @@ each segment midpoint; a filled circle badge "P#" at the first tile and a dark r
 
 Tick **Power distribution** to enable and choose the Distribution cable (setting pdt). Usable watts per circuit = V x A x (0.8 if
 "Load circuits to 80%"). Tiles per circuit t = floor(usable / wmax), capped by the power link limit if set. Note text:
-"One 120 V 20 A circuit loaded to 80% supplies 1,920 W, enough for 12 tiles of ... at 150 W max each."
+"One 230 V 16 A circuit loaded to 80% supplies 2,944 W, enough for 19 tiles of ... at 150 W max each."
 
-Circuits are numbered k = 1, 2, ... across walls; with n circuits per cable (Socapex 6, L14-30 2, L21-30 3) circuit k is on cable ceil(k/n) as leg (k-1) mod n (legs 1-6 for Socapex, X,Y for
-L14-30, X,Y,Z for L21-30); labels cable-circuit with no type letter: 1-1 ... 1-6, 2-1 ... or 1-X, 1-Y, 2-X ... No phase is assigned (the PDU does that).
-powerCON to Edison (n = 1, no PDU): every circuit is its own cable and is labelled just k (1, 2, 3 ...); cables needed = circuits, no spares. Selecting it sets pvolt 120 and pamps 15. Edison shows two extra
-fields, "Edison plugs per wall circuit (0 = do not check)" (pwall) and "Wall circuit breaker (A)" (pwallA). With pwall > 0, plug k is on wall circuit ceil(k / pwall); its load in amps is watts / pvolt, summed per wall circuit and
-compared with pwallA x (0.8 if "Load circuits to 80%"). Engineering rows: "Edison plugs needed", "Peak load per plug" ("plug 3 9.4 A"), and with pwall > 0 "Wall circuits needed", "Peak load per wall circuit" ("(over)" after any
-over its limit) and "Wall circuit over capacity". Labels: one pair per circuit, tags "1/2 EDISON PLUG END" (lines "Edison plug k[, wall circuit g]", "to <wall> <tile> (col, row)", tiles/watts/volts/breaker) and
-"2/2 POWERCON END" ("<wall> <tile> POWER IN", "from Edison plug k", tiles/watts); the Power labels select is hidden. Power wiring works
+Circuits are numbered k = 1, 2, ... across walls; with n circuits per cable (Socapex 6, CEE 3-phase 3, L14-30 2, L21-30 3) circuit k is on cable ceil(k/n) as leg (k-1) mod n (legs 1-6 for Socapex, L1, L2, L3 for CEE 16 A and CEE 32 A, X,Y for
+L14-30, X,Y,Z for L21-30); labels cable-circuit with no type letter: 1-1 ... 1-6, 2-1 ... or 1-L1, 1-L2, 1-L3, 2-L1 ... or 1-X, 1-Y, 2-X ... Socapex and the NEMA cables assign no phase (the PDU does that); on CEE 3-phase cables the leg is the phase.
+One-circuit cables (powerCON TRUE1 to Schuko, powerCON TRUE1 to CEE 16 A, powerCON to Edison; n = 1, no PDU): every circuit is its own cable and is labelled just k (1, 2, 3 ...); cables needed = circuits, no spares. Selecting Schuko or CEE 16 A sets pvolt 230 and pamps 16, Edison sets pvolt 120 and pamps 15. These show two extra
+fields, "Plugs per wall circuit (0 = do not check)" (pwall) and "Wall circuit breaker (A)" (pwallA). With pwall > 0, plug k is on wall circuit ceil(k / pwall); its load in amps is watts / pvolt, summed per wall circuit and
+compared with pwallA x (0.8 if "Load circuits to 80%"). Engineering rows: "<plug> plugs needed" (Schuko, CEE 16 A or Edison), "Peak load per plug" ("plug 3 9.4 A"), and with pwall > 0 "Wall circuits needed", "Peak load per wall circuit" ("(over)" after any
+over its limit) and "Wall circuit over capacity". Labels: one pair per circuit, tags "1/2 SCHUKO PLUG END" / "1/2 CEE 16 A END" / "1/2 EDISON PLUG END" (lines "<plug> plug k[, wall circuit g]", "to <wall> <tile> (col, row)", tiles/watts/volts/breaker) and
+"2/2 POWERCON TRUE1 END" ("2/2 POWERCON END" for Edison; "<wall> <tile> POWER IN", "from <plug> plug k", tiles/watts); the Power labels select is hidden. Power wiring works
 like data wiring with the same patterns, corners and areas (Fewest circuits / Whole rows or columns / One continuous
 path), capacity t, plus the power link limit; on half-tile layouts by each piece's own watts (circuit full when watts >
 usable or tiles > link limit). Manual: Wire tiles, New circuit, Undo, Clear; "This circuit is full (12 tiles)."
@@ -924,7 +944,25 @@ webview-bridge.js turns into the same window.TSM. A native Android clone, as des
   every tile appears in exactly one chain, no chain is over capacity, and One continuous path uses ceil(tiles / t)
   chains.
 - Engineering for a 6x4 Unilumin UpadIV 2.6 wall: 24 tiles, 1152 x 768 px (884,736 LED px), 6.00 m^2, 151.2 kg,
-  2.88 kW peak, 1.15 kW typical; at 120 V 20 A loaded to 80%: 1,920 W usable, 16 tiles per circuit.
+  2.88 kW peak, 1.15 kW typical; at 230 V 16 A loaded to 80%: 2,944 W usable, 24 tiles per circuit (at 120 V 20 A: 1,920 W, 16 tiles).
 - NovaStar VX1000 Pro at 60 Hz 8-bit: 650,000 px per port; at 10-bit 325,000; Brompton S8 at 50 Hz 10-bit: 504,000.
 - Perfect-loop DVD: position and colour at time T equal those at time 0, and there are exactly 2 (or 0) corner hits
   per loop.
+
+## 17. Drawings (Engineering > Drawings)
+
+Build plans made from the project. Every canvas gets up to three landscape sheets: **Plan** (outer dimensions in mm, tile numbers, caption with grid, tile count, model, pixels and kg), **Data cables** (only when an LED processor is
+picked and drData is on) and **Power cables** (only with a power distribution and drPow on). A title block (title, company, client, venue, drawn by, date, revision, scale, sheet n/N, logo) closes every sheet.
+
+Layout: walls sit in one row, bottom aligned, with a gap of 6% of the widest wall (at least 300 mm) on the plan and 32 mm of paper on the cabling sheets (room for the cable numbers). The scale is the smallest of 1:5, 10, 20, 25, 30, 40, 50, 75, 100 ...
+5000 at which everything fits, or the fixed drScale. Each wall can be moved by dragging in the editor; the offset (dx, dy in wall mm) is kept per wall. The wall outline follows the tiles (an edge is drawn where no tile lies on its other side), so removed tiles and half tiles show.
+
+Cabling sheets use the app's own data and power wiring (portPlan, powerPlan): one colour per sheet (data #1747c4, power #c4161c) with two alternating tints for the tiles, or with drRainbow one of ten colours (#1f4fd8 #c2185b #00a0e0 #7a3b00 #7b2cbf #5f6b7a #d00000 #111827 #f07a00 #0b8f3a, in this
+order, CIE76 distance at least 80 between neighbours). Each cable is a polyline through its tile centres with an arrow on every segment, a dot on the first tile and a square on the last. It enters at the nearest wall edge: a stub leaves the first tile, an arrow points
+into the wall and a box with the cable number (P3, C5) sits outside, white text on the cable colour. A cable over its limit gets a yellow box with a black number and a "!". Tiles without a cable are yellow (#ffe45c). A legend names the cable type and explains the symbols.
+
+Suggest best (per wall or all walls) tries Snake and Linear, the four start corners, both directions and the first three fill strategies, keeps only layouts where every tile is on exactly one cable within the port or circuit limit, and picks the fewest ports or circuits, then the least cable (tile to tile plus the way to the nearest edge).
+Edit cables starts from the current cabling (copied to Manual): the first click on a cable selects it (drawn thicker), a tile without a cable is added to it with the app's own limits, the last tile of the selected cable removes it, an earlier tile cuts the cable there. New cable and Clear all are buttons.
+
+The editor shows the sheet as SVG; the same list of items (rect, line, polyline, polygon, text, image in paper mm) is written into the PDF, so screen and paper match. Export PDF writes plan, data and power sheets for every canvas.
+
